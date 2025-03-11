@@ -1,0 +1,33 @@
+{
+    "manifest_version" : 3,
+    "name": "EZDemo",
+    "version": "1.0.0",
+    "author": {
+        "email": "bmbruno@gmail.com"
+    },
+
+    "icons": {
+        "16": "src/images/icons/scai-16.png",
+        "128": "src/images/icons/scai-128.png"
+    },
+
+    "permissions": [ 
+        "sidePanel",
+        "storage"
+    ],
+
+    "content_scripts": [],
+
+    "background": {
+        "service_worker": "src/service-worker.js",
+        "type": "module"
+    },
+
+    "side_panel": { 
+        "default_path": "src/side-default.html"
+    },
+
+    "action": {
+        "default_title": "Click to Open Panel"
+    }
+}
