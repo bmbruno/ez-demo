@@ -7,8 +7,8 @@
     },
 
     "icons": {
-        "16": "src/images/icons/scai-16.png",
-        "128": "src/images/icons/scai-128.png"
+        "16": "src/images/icons/ezdemo-icon-16.png",
+        "128": "src/images/icons/ezdemo-icon-128.png"
     },
 
     "permissions": [ 
@@ -17,11 +17,6 @@
     ],
 
     "content_scripts": [],
-
-    "background": {
-        "service_worker": "src/service-worker.js",
-        "type": "module"
-    },
 
     "side_panel": { 
         "default_path": "src/side-default.html"
