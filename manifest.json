@@ -16,6 +16,10 @@
         "storage"
     ],
 
+    "background": {
+        "service_worker": "src/scripts/service-worker.js"
+    },
+
     "content_scripts": [],
 
     "side_panel": { 

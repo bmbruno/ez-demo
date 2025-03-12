@@ -11,6 +11,6 @@ Manage strings of text to quickly copy/paste where needed when running a demonst
 # ToDo
 
 * Open source - DONE 2025.03.11
-* Update app icon
-* Configure sidebar as default open behavior
+* Update app icon - DONE 2025.03.12
+* Configure sidebar as default open behavior - DONE 2025.03.12
 * Style for dark mode
