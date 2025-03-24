@@ -20,8 +20,6 @@
 
             chrome.storage.local.get([EZDemo.TextLibrary.storageKey]).then((result) => {
 
-                console.log(`result: ${result}; typeof: ${typeof result}`);
-
                 if (!result || typeof result === "undefined") {
                     console.log("'result' is null or undefined! Nothing to load.");
                     return;
@@ -29,7 +27,7 @@
 
                 try {
 
-                    EZDemo.TextLibrary.library = result[EZDemo.TextLibrary.storageKey] || [];
+                    EZDemo.TextLibrary.library = JSON.parse(result[EZDemo.TextLibrary.storageKey]) || [];
                     EZDemo.TextLibrary.updateUI();
 
                 } catch (ex) {
@@ -93,7 +91,7 @@
 
                 EZDemo.TextLibrary.library.forEach((element) => {
 
-                    output += template.replaceAll("{{TEXT}}", element);
+                    output += template.replaceAll("{{TEXT}}", element.text);
                     list.innerHTML = output;
                 });
 
@@ -138,7 +136,7 @@
         // Saves data to local extension storage
         saveLibrary: () => {
             
-            chrome.storage.local.set({ [EZDemo.TextLibrary.storageKey] : EZDemo.TextLibrary.library }).then(() => {
+            chrome.storage.local.set({ [EZDemo.TextLibrary.storageKey] : JSON.stringify(EZDemo.TextLibrary.library) }).then(() => {
 
                 console.log(`Data saved for key '${EZDemo.TextLibrary.storageKey}; length: ${EZDemo.TextLibrary.library.length}'`);
 
@@ -169,7 +167,7 @@
                 return;
             }
 
-            EZDemo.TextLibrary.library.push(textInput.value.trim());
+            EZDemo.TextLibrary.library.push({ "checked": false, "text": textInput.value.trim() });
             EZDemo.TextLibrary.saveLibrary();
 
             // Update page with new value
@@ -188,7 +186,7 @@
             button.innerHTML = `<i class="fa fa-check" aria-hidden="true"></i> Copied!`;
 
             window.setTimeout(() => {
-                button.innerHTML = "Copy";                
+                button.innerHTML = "Copy";
             }, EZDemo.TextLibrary.buttonResetTimeout);
 
         },
@@ -248,9 +246,15 @@
         updateLibrary: (oldValue, newValue) => {
 
             if (oldValue && newValue) {
-                let index = EZDemo.TextLibrary.library.indexOf(oldValue);
-                EZDemo.TextLibrary.library[index] = newValue;
-                EZDemo.TextLibrary.saveLibrary();
+
+                let index = EZDemo.TextLibrary.library.findIndex((element) => element.text === oldValue);
+                if (index > -1) {
+
+                    EZDemo.TextLibrary.library[index].checked = false;
+                    EZDemo.TextLibrary.library[index].text = newValue;
+                    EZDemo.TextLibrary.saveLibrary();
+
+                }
             }
 
         },
@@ -258,8 +262,7 @@
         // Removes the given value from the library array; saves the library to storage
         removeFromLibrary: (valueToRemove) => {
 
-            let index = EZDemo.TextLibrary.library.indexOf(valueToRemove);
-
+            let index = EZDemo.TextLibrary.library.findIndex((element) => element.text === valueToRemove);
             if (index > -1) {
                 EZDemo.TextLibrary.library.splice(index, 1);
                 EZDemo.TextLibrary.saveLibrary();

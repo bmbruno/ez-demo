@@ -1,0 +1,15 @@
+[
+    { 
+        "checked": "true",
+        "text": "test string one"
+    },
+    { 
+        "checked": "false",
+        "text": "more strings and text to test"
+    },
+    { 
+        "checked": "false",
+        "text": "this stuff"
+    }
+
+]
