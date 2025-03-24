@@ -11,6 +11,9 @@
         // Time (ms) before Copy button resets from "copied" label
         buttonResetTimeout: 2000,
 
+        // Checklist Mode will grey out entires as they are copied
+        checklistMode: false,
+
         init: () => {
 
             EZDemo.TextLibrary.wireUI();
@@ -50,6 +53,12 @@
             if (clearAllButton)
                 clearAllButton.addEventListener("click", EZDemo.TextLibrary.handleClearAllClick);
 
+            // Checklist Mode checkbox click
+            let checklistModeToggle = document.getElementById("ChecklistMode");
+            if (checklistModeToggle)
+                checklistModeToggle.addEventListener("click", () => {
+                    EZDemo.TextLibrary.checklistMode = checklistModeToggle.checked;
+                });
         },
 
         updateUI: () => {
