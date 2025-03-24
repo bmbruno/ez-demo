@@ -56,6 +56,10 @@
             if (checklistModeToggle)
                 checklistModeToggle.addEventListener("click", () => {
                     EZDemo.TextLibrary.checklistMode = checklistModeToggle.checked;
+                    
+                    if (!EZDemo.TextLibrary.checklistMode) {
+                        EZDemo.TextLibrary.resetChecklist();
+                    }
                 });
         },
 
@@ -68,7 +72,7 @@
 
             let template = `
                 <li>
-                    <div class="text-item-display-container">
+                    <div class="text-item-display-container {{CHECKLIST}}">
                         <span class="button-container">
                             <button class="text-item-copy-button btn" data-text="{{TEXT}}">Copy</button>
                         </span>
@@ -91,7 +95,7 @@
 
                 EZDemo.TextLibrary.library.forEach((element) => {
 
-                    output += template.replaceAll("{{TEXT}}", element.text);
+                    output += template.replaceAll("{{TEXT}}", element.text).replaceAll("{{CHECKLIST}}", (element.checked) ? "checklist-done" : "");
                     list.innerHTML = output;
                 });
 
@@ -180,13 +184,24 @@
 
             let button = e.currentTarget;
             let text = button.getAttribute("data-text");
+            let originalButtonText = button.innerHTML;
             navigator.clipboard.writeText(text);
 
             // Show "Copied!" message toast or button change
             button.innerHTML = `<i class="fa fa-check" aria-hidden="true"></i> Copied!`;
 
+            if (EZDemo.TextLibrary.checklistMode) {
+
+                // Update checked value in library and UI
+                EZDemo.TextLibrary.updateLibraryChecked(text, true);
+                button.parentElement.parentElement.classList.add("checklist-done");
+            }
+
+            // After a few moments, reset button to original text.
             window.setTimeout(() => {
-                button.innerHTML = "Copy";
+
+                button.innerHTML = originalButtonText;
+
             }, EZDemo.TextLibrary.buttonResetTimeout);
 
         },
@@ -242,6 +257,18 @@
 
         },
 
+        // Uncheck all items in the library
+        resetChecklist: () => {
+
+            EZDemo.TextLibrary.library.forEach((element, index) => {
+                EZDemo.TextLibrary.library[index].checked = false;
+            });
+
+            EZDemo.TextLibrary.saveLibrary();
+            EZDemo.TextLibrary.updateUI();
+
+        },
+
         // Updates the given old value to the given new value; saves the library to storage
         updateLibrary: (oldValue, newValue) => {
 
@@ -252,6 +279,22 @@
 
                     EZDemo.TextLibrary.library[index].checked = false;
                     EZDemo.TextLibrary.library[index].text = newValue;
+                    EZDemo.TextLibrary.saveLibrary();
+
+                }
+            }
+
+        },
+
+        // Updates the checked value in the library for the given text string
+        updateLibraryChecked: (textValue, checked) => {
+
+            if (textValue) {
+
+                let index = EZDemo.TextLibrary.library.findIndex((element) => element.text === textValue);
+                if (index > -1) {
+
+                    EZDemo.TextLibrary.library[index].checked = checked;
                     EZDemo.TextLibrary.saveLibrary();
 
                 }

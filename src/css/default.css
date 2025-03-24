@@ -6,7 +6,7 @@ body { background-color: #CECECE; background: linear-gradient(0deg, rgba(184,184
 .strikethrough { text-decoration: line-through; }
 
 select, input, textarea { display: block; width: 100%; padding: 0.75em; border: 1px solid #AAA; border-radius: 4px; box-shadow: inset 2px 2px 2px #e4e4e4; }
-input[type="checkbox"] { display: inline; width: auto; }
+input[type="checkbox"] { display: inline; width: auto; box-shadow: none; vertical-align: middle; position: relative; bottom: 1px; }
 textarea { width: 100%; height: 200px; padding: 1em; }
 
 .header { text-align: center; padding-bottom: 2em; }
@@ -14,7 +14,7 @@ textarea { width: 100%; height: 200px; padding: 1em; }
 .btn, input[type="submit"] { padding: 0.75em 2em; box-shadow: 0 2px 0 #303030; border-radius: 3px; border: 0;  font-weight: bold; background-color: #f5f5f5; color: #222222; cursor: pointer; }
 .btn.primary { background-color: #219bc0; color: #FFF; text-shadow: 1px 1px 0 #000; box-shadow: 0 2px 0 #0d4455; }
 .btn.small { padding: 0.25em 1em; }
-.btn:active, nput[type="submit"]:active { position: relative; top: 2px; box-shadow: none; }
+.btn:active, input[type="submit"]:active { position: relative; top: 2px; box-shadow: none; }
 
 .add-text {
     margin: 2em 0;
@@ -39,9 +39,10 @@ textarea { width: 100%; height: 200px; padding: 1em; }
 
 }
 
+.text-item-display-container.checklist-done .text-item-copy-button { color: #CCC; box-shadow: 0 2px 0 #CCC; }
+.text-item-display-container.checklist-done .text-item { text-decoration: line-through; }
 .text-item-edit-container { display: none; }
 .text-item-edit-input { width: 85%; display: inline-block; margin-right: 1em; }
-
 .text-item { cursor: pointer; font-size: 1.25em; padding: 0 1em; }
 
 .library-list {
@@ -49,6 +50,7 @@ textarea { width: 100%; height: 200px; padding: 1em; }
     padding: 0em;
 
     li { list-style-type: none; margin: 0 0 2em 0; }
+
 }
 
 .library-empty { text-align: center; font-size: 1.25em; }
@@ -61,7 +63,6 @@ textarea { width: 100%; height: 200px; padding: 1em; }
         list-style-type: none;
         margin: 0 0 1em 0;
 
-        a { display: block; padding: 1.5em; background-color: #FFF; border-radius: 4px; box-shadow: 2px 2px 1px #868686; color: #000; }
         a { display: block; padding: 1.5em; background-color: #FFF; border-radius: 4px; box-shadow: 2px 2px 1px #868686; color: #000; }
         a:hover { background-color: #fafafa; }
         a:active { position: relative; top: 2px; left: 1px; box-shadow: 1px 1px 1px #868686; }
