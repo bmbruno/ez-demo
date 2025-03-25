@@ -47,11 +47,6 @@
                 EZDemo.TextLibrary.updateUI();
             });
 
-            // TODO: use allSettles() function to handle above promises
-            Promise.allSettled([ promiseLibrary, promiseChecklistMode ]).then((results) => {
-                // EZDemo.TextLibrary.updateUI();
-            });
-
         },
 
         wireUI: () => {
