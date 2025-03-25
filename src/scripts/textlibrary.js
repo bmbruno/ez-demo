@@ -5,8 +5,9 @@
         // Library data
         library: [],
 
-        // Key for saving library data in local extension storage
-        storageKey: "text-library",
+        // Keys for extension local storage
+        keyTextLibrary: "text-library",
+        keyChecklistMode: "checklist-mode",
 
         // Time (ms) before Copy button resets from "copied" label
         buttonResetTimeout: 2000,
@@ -18,21 +19,37 @@
 
             EZDemo.TextLibrary.wireUI();
 
-            chrome.storage.local.get([EZDemo.TextLibrary.storageKey]).then((result) => {
+            chrome.storage.local.get([EZDemo.TextLibrary.keyTextLibrary]).then((result) => {
 
                 if (!result || typeof result === "undefined") {
-                    console.log("'result' is null or undefined! Nothing to load.");
+                    console.log("'keyTextLibrary' is null or undefined! Nothing to load.");
                     return;
                 }
 
                 try {
 
-                    EZDemo.TextLibrary.library = JSON.parse(result[EZDemo.TextLibrary.storageKey]) || [];
+                    EZDemo.TextLibrary.library = JSON.parse(result[EZDemo.TextLibrary.keyTextLibrary]) || [];
                     EZDemo.TextLibrary.updateUI();
 
                 } catch (ex) {
                     console.log(`Error loading library: ${ex}`);
                 }
+            });
+
+            chrome.storage.local.get([EZDemo.TextLibrary.keyChecklistMode]).then((result) => {
+
+                if (!result || typeof result === "undefined") {
+                    console.log("'keyChecklistMode' is null or undefined! Nothing to load.");
+                    return;
+                }
+
+                EZDemo.TextLibrary.checklistMode = result[EZDemo.TextLibrary.keyChecklistMode];
+                EZDemo.TextLibrary.updateUI();
+            });
+
+            // TODO: use allSettles() function to handle above promises
+            Promise.allSettled([ promiseLibrary, promiseChecklistMode ]).then((results) => {
+                // EZDemo.TextLibrary.updateUI();
             });
 
         },
@@ -56,6 +73,8 @@
             if (checklistModeToggle)
                 checklistModeToggle.addEventListener("click", () => {
                     EZDemo.TextLibrary.checklistMode = checklistModeToggle.checked;
+
+                    chrome.storage.local.set({ [EZDemo.TextLibrary.keyChecklistMode] : EZDemo.TextLibrary.checklistMode });
                     
                     if (!EZDemo.TextLibrary.checklistMode) {
                         EZDemo.TextLibrary.resetChecklist();
@@ -64,6 +83,10 @@
         },
 
         updateUI: () => {
+
+            //
+            // Library list
+            //
 
             let list = document.getElementById("LibraryList");
             let libraryEmptyMessage = document.getElementById("LibraryEmpty");
@@ -135,14 +158,20 @@
 
             }
 
+            //
+            // Checklist Mode checkbox
+            //
+
+            document.getElementById("ChecklistMode").checked = EZDemo.TextLibrary.checklistMode;
+
         },
 
         // Saves data to local extension storage
         saveLibrary: () => {
             
-            chrome.storage.local.set({ [EZDemo.TextLibrary.storageKey] : JSON.stringify(EZDemo.TextLibrary.library) }).then(() => {
+            chrome.storage.local.set({ [EZDemo.TextLibrary.keyTextLibrary] : JSON.stringify(EZDemo.TextLibrary.library) }).then(() => {
 
-                console.log(`Data saved for key '${EZDemo.TextLibrary.storageKey}; length: ${EZDemo.TextLibrary.library.length}'`);
+                console.log(`Data saved for key '${EZDemo.TextLibrary.keyTextLibrary}; length: ${EZDemo.TextLibrary.library.length}'`);
 
             });
 
