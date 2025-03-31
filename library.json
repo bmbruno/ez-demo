@@ -1,13 +1,24 @@
 [
-    { 
+    {
+        "pos": 1,
+        "type": "entry",
         "checked": "true",
         "text": "test string one"
     },
+    {
+        "pos": 2,
+        "type": "header",
+        "text": "My new header"
+    },
     { 
+        "pos": 3,
+        "type": "entry",
         "checked": "false",
         "text": "more strings and text to test"
     },
     { 
+        "pos": 4,
+        "type": "entry",
         "checked": "false",
         "text": "this stuff"
     }
