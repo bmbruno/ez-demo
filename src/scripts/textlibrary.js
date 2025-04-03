@@ -85,7 +85,7 @@
         updateUI: () => {
 
             //
-            // Library list
+            // Render Library list
             //
 
             let list = document.getElementById("LibraryList");
@@ -95,16 +95,16 @@
 
             let templateEntry = `
                 <li>
-                    <div class="text-item-display-container {{CHECKLIST}}">
+                    <div class="text-item-display-container {{CHECKLIST}}" id="display-container-{{ID}}">
                         <span class="button-container">
                             <button class="text-item-copy-button btn" data-text="{{TEXT}}">Copy</button>
                         </span>
-                        <span class="text-item" data-text="{{TEXT}}">
+                        <span class="text-item" data-id="{{ID}}">
                             {{TEXT}}
                         </span>
                     </div>
-                    <div class="text-item-edit-container">
-                        <input type="text" class="text-item-edit-input" value="{{TEXT}}" data-original="{{TEXT}}" /><button class="btn small text-item-delete" data-text="{{TEXT}}"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                    <div class="text-item-edit-container" id="edit-container-{{ID}}">
+                        <input type="text" class="text-item-edit-input" value="{{TEXT}}" data-original="{{TEXT}}" /><button class="btn small text-item-delete" data-id="{{ID}}"><i class="fa fa-trash" aria-hidden="true"></i></button>
                     </div>
                 </li>`;
 
@@ -119,7 +119,9 @@
                 EZDemo.TextLibrary.library.forEach((element) => {
 
                     if (element.type == "entry") {
-                        output += templateEntry.replaceAll("{{TEXT}}", element.text).replaceAll("{{CHECKLIST}}", (element.checked) ? "checklist-done" : "");
+                        output += templateEntry.replaceAll("{{TEXT}}", element.text)
+                                               .replaceAll("{{CHECKLIST}}", (element.checked) ? "checklist-done" : "")
+                                               .replaceAll("{{ID}}", element.id);
                     }
 
                     if (element.type == "header") {
@@ -171,7 +173,7 @@
             }
 
             //
-            // Checklist Mode checkbox
+            // Render updated Checklist Mode checkbox
             //
 
             document.getElementById("ChecklistMode").checked = EZDemo.TextLibrary.checklistMode;
@@ -186,6 +188,13 @@
                 console.log(`Data saved for key '${EZDemo.TextLibrary.keyTextLibrary}; length: ${EZDemo.TextLibrary.library.length}'`);
 
             });
+
+        },
+
+        // Generate a unique-enough ID
+        getNewID: () => {
+
+            return crypto.randomUUID();
 
         },
 
@@ -212,9 +221,8 @@
                 return;
             }
 
-            // TODO: validate no duplicate entries
-
-            EZDemo.TextLibrary.library.push({ "type": "entry", "checked": false, "text": textInput.value.trim() });
+            let newID = EZDemo.TextLibrary.getNewID();
+            EZDemo.TextLibrary.library.push({ "id": newID, "pos": EZDemo.TextLibrary.library.length, "type": "entry", "checked": false, "text": textInput.value.trim() });
             EZDemo.TextLibrary.saveLibrary();
 
             // Update page with new value
@@ -231,9 +239,8 @@
                 return;
             }
 
-            // TODO: validate no duplicate entries
-
-            EZDemo.TextLibrary.library.push({ "type": "header", "checked": false, "text": textInput.value.trim() });
+            let newID = EZDemo.TextLibrary.getNewID();
+            EZDemo.TextLibrary.library.push({ "id": newID, "pos": EZDemo.TextLibrary.library.length,"type": "header", "checked": false, "text": textInput.value.trim() });
             EZDemo.TextLibrary.saveLibrary();
 
             // Update page with new value
@@ -274,8 +281,10 @@
         handleTextItemClick: (e) => {
 
             let textItem = e.currentTarget;
-            let displayContainer = textItem.parentNode;
-            let editContainer = displayContainer.nextSibling;
+            let itemID = textItem.getAttribute("data-id");
+
+            let displayContainer = document.getElementById(`display-container-${itemID}`);
+            let editContainer = document.getElementById(`edit-container-${itemID}`);
 
             displayContainer.style.display = "none";
             editContainer.style.display = "block";
@@ -288,11 +297,11 @@
         // Delete button logic: removes the selected string from the text library
         handleTextItemDeleteClick: (e) => {
 
-            let valueToRemove = e.currentTarget.getAttribute("data-text");
+            let itemID = e.currentTarget.getAttribute("data-id");
 
-            if (valueToRemove) {
+            if (itemID) {
 
-                EZDemo.TextLibrary.removeFromLibrary(valueToRemove);
+                EZDemo.TextLibrary.removeFromLibrary(itemID);
                 EZDemo.TextLibrary.updateUI();
 
             }
@@ -367,9 +376,9 @@
         },
 
         // Removes the given value from the library array; saves the library to storage
-        removeFromLibrary: (valueToRemove) => {
+        removeFromLibrary: (itemID) => {
 
-            let index = EZDemo.TextLibrary.library.findIndex((element) => element.text === valueToRemove);
+            let index = EZDemo.TextLibrary.library.findIndex((element) => element.id == itemID);
             if (index > -1) {
                 EZDemo.TextLibrary.library.splice(index, 1);
                 EZDemo.TextLibrary.saveLibrary();
