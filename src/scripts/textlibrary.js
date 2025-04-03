@@ -9,7 +9,7 @@
         keyTextLibrary: "text-library",
         keyChecklistMode: "checklist-mode",
 
-        // Time (ms) before Copy button resets from "copied" label
+        // Time (ms) before Copy button resets from "Copied!" label
         buttonResetTimeout: 2000,
 
         // Checklist Mode will grey out entires as they are copied
@@ -53,10 +53,15 @@
 
             console.log("wireUI() called.");
 
-            // Save text and add to library
-            let saveTextButton = document.getElementById("SaveTextButton");
-            if (saveTextButton)
-                saveTextButton.addEventListener("click", EZDemo.TextLibrary.handleSaveTextButtonClick);
+            // Add entry and add to library
+            let addTextButton = document.getElementById("AddTextButton");
+            if (addTextButton)
+                addTextButton.addEventListener("click", EZDemo.TextLibrary.handleAddTextButtonClick);
+
+            // Save header and add to library
+            let addHeaderButton = document.getElementById("AddHeaderButton");
+            if (addHeaderButton)
+                addHeaderButton.addEventListener("click", EZDemo.TextLibrary.handleAddHeaderButtonClick);
 
             // Wire-up clear all button
             let clearAllButton = document.getElementById("ClearAll");
@@ -88,7 +93,7 @@
 
             list.innerHTML = "";
 
-            let template = `
+            let templateEntry = `
                 <li>
                     <div class="text-item-display-container {{CHECKLIST}}">
                         <span class="button-container">
@@ -113,9 +118,20 @@
 
                 EZDemo.TextLibrary.library.forEach((element) => {
 
-                    output += template.replaceAll("{{TEXT}}", element.text).replaceAll("{{CHECKLIST}}", (element.checked) ? "checklist-done" : "");
-                    list.innerHTML = output;
+                    if (element.type == "entry") {
+                        output += templateEntry.replaceAll("{{TEXT}}", element.text).replaceAll("{{CHECKLIST}}", (element.checked) ? "checklist-done" : "");
+                    }
+
+                    if (element.type == "header") {
+                        output += `
+                            <li>
+                                <h6 class="header-item">${element.text}</h6>
+                            </li>`;
+                    }
+
                 });
+
+                list.innerHTML = output;
 
                 // Click event for Copy button (see existing function)
                 document.querySelectorAll(".text-item-copy-button").forEach((element) => {
@@ -144,6 +160,7 @@
                     element.addEventListener("click", (e) => { EZDemo.TextLibrary.handleTextItemDeleteClick(e) });
 
                 });
+
 
             } else {
 
@@ -186,7 +203,7 @@
         },
 
         // Adds the new string to the library, if the textbox isn't empty
-        handleSaveTextButtonClick: () => {
+        handleAddTextButtonClick: () => {
 
             let textInput = document.getElementById("AddTextInput");
 
@@ -195,7 +212,28 @@
                 return;
             }
 
-            EZDemo.TextLibrary.library.push({ "checked": false, "text": textInput.value.trim() });
+            // TODO: validate no duplicate entries
+
+            EZDemo.TextLibrary.library.push({ "type": "entry", "checked": false, "text": textInput.value.trim() });
+            EZDemo.TextLibrary.saveLibrary();
+
+            // Update page with new value
+            EZDemo.TextLibrary.updateUI();
+
+        },
+
+        handleAddHeaderButtonClick: () => {
+
+            let textInput = document.getElementById("AddTextInput");
+
+            if (!textInput || textInput.value == "") {
+                console.log("AddTextInput is null or empty!");
+                return;
+            }
+
+            // TODO: validate no duplicate entries
+
+            EZDemo.TextLibrary.library.push({ "type": "header", "checked": false, "text": textInput.value.trim() });
             EZDemo.TextLibrary.saveLibrary();
 
             // Update page with new value
@@ -230,12 +268,14 @@
 
         },
 
-        // Displays the edit UI for the selected string
+        // TODO: consider refactoring the following function into a generic handler for all edits / delete
+
+        // Displays the edit UI for the selected entry
         handleTextItemClick: (e) => {
 
             let textItem = e.currentTarget;
             let displayContainer = textItem.parentNode;
-            let editContainer = displayContainer.nextSibling.nextSibling;
+            let editContainer = displayContainer.nextSibling;
 
             displayContainer.style.display = "none";
             editContainer.style.display = "block";
