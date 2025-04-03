@@ -88,14 +88,13 @@
             // Render Library list
             //
 
-            let list = document.getElementById("LibraryList");
             let libraryEmptyMessage = document.getElementById("LibraryEmpty");
-
+            let list = document.getElementById("LibraryList");
             list.innerHTML = "";
 
             let templateEntry = `
                 <li>
-                    <div class="text-item-display-container {{CHECKLIST}}" id="display-container-{{ID}}">
+                    <div class="display-container {{CHECKLIST}}" id="display-container-{{ID}}">
                         <span class="button-container">
                             <button class="text-item-copy-button btn" data-text="{{TEXT}}">Copy</button>
                         </span>
@@ -103,8 +102,18 @@
                             {{TEXT}}
                         </span>
                     </div>
-                    <div class="text-item-edit-container" id="edit-container-{{ID}}">
+                    <div class="edit-container" id="edit-container-{{ID}}">
                         <input type="text" class="text-item-edit-input" value="{{TEXT}}" data-original="{{TEXT}}" id="input-{{ID}}" /><button class="btn small text-item-delete" data-id="{{ID}}"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                    </div>
+                </li>`;
+
+            let templateHeader = `
+                <li>
+                    <div class="display-container" id="display-container-{{ID}}">
+                        <h6 class="header-item">{{TEXT}}</h6>
+                    </div>
+                    <div class="edit-container" id="edit-container-{{ID}}">
+                        <input type="text" class="" value="{{TEXT}}" data-original="{{TEXT}}" id="input-{{ID}}" />
                     </div>
                 </li>`;
 
@@ -125,10 +134,7 @@
                     }
 
                     if (element.type == "header") {
-                        output += `
-                            <li>
-                                <h6 class="header-item">${element.text}</h6>
-                            </li>`;
+                        output += templateHeader.replaceAll("{{TEXT}}", element.text);
                     }
 
                 });
@@ -275,8 +281,6 @@
 
         },
 
-        // TODO: consider refactoring the following function into a generic handler for all edits / delete
-
         // Displays the edit UI for the selected entry
         handleTextItemClick: (e) => {
 
@@ -320,12 +324,14 @@
         handleTextEditKeydown: (e) => {
 
             // Cancel with Escape
-            if(e.code === "Escape") {
+            if (e.code === "Escape") {
                 EZDemo.TextLibrary.updateUI();
             }
 
             // Save with enter
             if (e.code === "Enter" && e.srcElement.value.length > 0) {
+
+                // TODO: implement with IDs
 
                 // Update existing value in library
                 let existing = e.srcElement.getAttribute("data-original");
