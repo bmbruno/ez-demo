@@ -110,10 +110,10 @@
             let templateHeader = `
                 <li>
                     <div class="display-container" id="display-container-{{ID}}">
-                        <h6 class="header-item">{{TEXT}}</h6>
+                        <h6 class="header-item" data-id="{{ID}}">{{TEXT}}</h6>
                     </div>
                     <div class="edit-container" id="edit-container-{{ID}}">
-                        <input type="text" class="" value="{{TEXT}}" data-original="{{TEXT}}" id="input-{{ID}}" />
+                        <input type="text" class="header-item-edit-input" value="{{TEXT}}" data-original="{{TEXT}}" id="input-{{ID}}" />
                     </div>
                 </li>`;
 
@@ -166,6 +166,18 @@
                 document.querySelectorAll(".text-item-delete").forEach((element) => {
 
                     element.addEventListener("click", (e) => { EZDemo.TextLibrary.handleTextItemDeleteClick(e) });
+
+                });
+
+                document.querySelectorAll(".header-item").forEach((element) => {
+
+                    element.addEventListener("click", (e) => { EZDemo.TextLibrary.handleHeaderItemClick(e) });
+
+                });
+
+                document.querySelectorAll(".header-item-edit-input").forEach((element) => {
+
+                    element.addEventListener("keydown", (e) => { EZDemo.TextLibrary.handleHeaderEditKeydown(e) });
 
                 });
 
@@ -291,6 +303,16 @@
 
         },
 
+        // Display the edit UI for the selected header
+        handleHeaderItemClick: (e) => {
+
+            let headerItem = e.currentTarget;
+            let itemID = headerItem.getAttribute("data-id");
+
+            EZDemo.TextLibrary.enableEditMode(itemID);
+
+        },
+
         // Switches the given item (ID) into edit mode
         enableEditMode: (itemID) => {
 
@@ -322,6 +344,30 @@
 
         // When "Enter" is pressed during editing, update the current value
         handleTextEditKeydown: (e) => {
+
+            // Cancel with Escape
+            if (e.code === "Escape") {
+                EZDemo.TextLibrary.updateUI();
+            }
+
+            // Save with enter
+            if (e.code === "Enter" && e.srcElement.value.length > 0) {
+
+                // TODO: implement with IDs
+
+                // Update existing value in library
+                let existing = e.srcElement.getAttribute("data-original");
+
+                if (existing !== e.srcElement.value)
+                    EZDemo.TextLibrary.updateLibrary(existing, e.srcElement.value);
+                
+                EZDemo.TextLibrary.updateUI();
+
+            }
+
+        },
+
+        handleHeaderEditKeydown: (e) => {
 
             // Cancel with Escape
             if (e.code === "Escape") {
