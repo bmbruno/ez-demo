@@ -104,7 +104,7 @@
                         </span>
                     </div>
                     <div class="text-item-edit-container" id="edit-container-{{ID}}">
-                        <input type="text" class="text-item-edit-input" value="{{TEXT}}" data-original="{{TEXT}}" /><button class="btn small text-item-delete" data-id="{{ID}}"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                        <input type="text" class="text-item-edit-input" value="{{TEXT}}" data-original="{{TEXT}}" id="input-{{ID}}" /><button class="btn small text-item-delete" data-id="{{ID}}"><i class="fa fa-trash" aria-hidden="true"></i></button>
                     </div>
                 </li>`;
 
@@ -283,14 +283,23 @@
             let textItem = e.currentTarget;
             let itemID = textItem.getAttribute("data-id");
 
+            EZDemo.TextLibrary.enableEditMode(itemID);
+
+        },
+
+        // Switches the given item (ID) into edit mode
+        enableEditMode: (itemID) => {
+
             let displayContainer = document.getElementById(`display-container-${itemID}`);
             let editContainer = document.getElementById(`edit-container-${itemID}`);
-
+            
             displayContainer.style.display = "none";
             editContainer.style.display = "block";
 
-            // Put focus on the input
-            editContainer.children[0].select();
+            // Put focus on the input (if it exists)
+            let input = document.getElementById(`input-${itemID}`);
+            if (input)
+                input.select();
 
         },
 
