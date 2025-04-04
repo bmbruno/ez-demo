@@ -94,7 +94,7 @@
 
             let templateEntry = `
                 <li>
-                    <div class="display-container {{CHECKLIST}}" id="display-container-{{ID}}">
+                    <div class="display-container entry {{CHECKLIST}}" id="display-container-{{ID}}">
                         <span class="button-container">
                             <button class="text-item-copy-button btn" data-text="{{TEXT}}">Copy</button>
                         </span>

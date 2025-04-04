@@ -30,7 +30,7 @@ h6 { font-size: 1.25em; text-align: center;padding: 0.5em 0; background-color: #
 
 }
 
-.text-item-display-container { 
+.entry { 
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -46,9 +46,6 @@ h6 { font-size: 1.25em; text-align: center;padding: 0.5em 0; background-color: #
 .edit-container { display: none; }
 .edit-container input[type="text"] { width: 85%; display: inline-block; margin-right: 1em; }
 .text-item { cursor: pointer; font-size: 1.25em; padding: 0 1em; }
-
-.header-item { cursor: pointer; } 
-.header-item-edit-container { display: none; }
 
 .library-list {
     margin: 1em 0;
