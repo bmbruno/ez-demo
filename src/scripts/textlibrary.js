@@ -103,7 +103,7 @@
                         </span>
                     </div>
                     <div class="edit-container" id="edit-container-{{ID}}">
-                        <input type="text" class="text-item-edit-input" value="{{TEXT}}" data-original="{{TEXT}}" id="input-{{ID}}" /><button class="btn small text-item-delete" data-id="{{ID}}"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                        <input type="text" class="text-item-edit-input" value="{{TEXT}}" data-original="{{TEXT}}" id="input-{{ID}}" /><button class="btn small delete-button" data-id="{{ID}}"><i class="fa fa-trash" aria-hidden="true"></i></button>
                     </div>
                 </li>`;
 
@@ -113,7 +113,7 @@
                         <h6 class="header-item" data-id="{{ID}}">{{TEXT}}</h6>
                     </div>
                     <div class="edit-container" id="edit-container-{{ID}}">
-                        <input type="text" class="header-item-edit-input" value="{{TEXT}}" data-original="{{TEXT}}" id="input-{{ID}}" />
+                        <input type="text" class="header-item-edit-input" value="{{TEXT}}" data-original="{{TEXT}}" id="input-{{ID}}" /><button class="btn small delete-button" data-id="{{ID}}"><i class="fa fa-trash" aria-hidden="true"></i></button>
                     </div>
                 </li>`;
 
@@ -134,7 +134,8 @@
                     }
 
                     if (element.type == "header") {
-                        output += templateHeader.replaceAll("{{TEXT}}", element.text);
+                        output += templateHeader.replaceAll("{{TEXT}}", element.text)
+                                                .replaceAll("{{ID}}", element.id);
                     }
 
                 });
@@ -163,9 +164,9 @@
                 });
 
                 // Wire-up click event for delete button
-                document.querySelectorAll(".text-item-delete").forEach((element) => {
+                document.querySelectorAll(".delete-button").forEach((element) => {
 
-                    element.addEventListener("click", (e) => { EZDemo.TextLibrary.handleTextItemDeleteClick(e) });
+                    element.addEventListener("click", (e) => { EZDemo.TextLibrary.handleDeleteClick(e) });
 
                 });
 
@@ -337,7 +338,7 @@
         },
 
         // Delete button logic: removes the selected string from the text library
-        handleTextItemDeleteClick: (e) => {
+        handleDeleteClick: (e) => {
 
             let itemID = e.currentTarget.getAttribute("data-id");
 
