@@ -325,7 +325,7 @@
             // type: "entry", "header"
 
             let newID = EZDemo.TextLibrary.getNewID();
-            EZDemo.TextLibrary.library.push({ "id": newID, "pos": 99/* EZDemo.TextLibrary.library.length */, "type": type, "checked": false, "text": text });
+            EZDemo.TextLibrary.library.push({ "id": newID, "pos": EZDemo.TextLibrary.library.length, "type": type, "checked": false, "text": text });
 
         },
 
