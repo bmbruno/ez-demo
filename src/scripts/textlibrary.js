@@ -56,7 +56,7 @@
             // Add entry and add to library
             let addTextButton = document.getElementById("AddTextButton");
             if (addTextButton)
-                addTextButton.addEventListener("click", EZDemo.TextLibrary.handleAddTextButtonClick);
+                addTextButton.addEventListener("click", EZDemo.TextLibrary.handleAddEntryButtonClick);
 
             // Save header and add to library
             let addHeaderButton = document.getElementById("AddHeaderButton");
@@ -238,7 +238,7 @@
         },
 
         // Adds the new string to the library, if the textbox isn't empty
-        handleAddTextButtonClick: () => {
+        handleAddEntryButtonClick: () => {
 
             let textInput = document.getElementById("AddTextInput");
 
@@ -247,8 +247,7 @@
                 return;
             }
 
-            let newID = EZDemo.TextLibrary.getNewID();
-            EZDemo.TextLibrary.library.push({ "id": newID, "pos": EZDemo.TextLibrary.library.length, "type": "entry", "checked": false, "text": textInput.value.trim() });
+            EZDemo.TextLibrary.addToLibrary("entry", textInput.value.trim());
             EZDemo.TextLibrary.saveLibrary();
 
             // Update page with new value
@@ -265,8 +264,7 @@
                 return;
             }
 
-            let newID = EZDemo.TextLibrary.getNewID();
-            EZDemo.TextLibrary.library.push({ "id": newID, "pos": EZDemo.TextLibrary.library.length,"type": "header", "checked": false, "text": textInput.value.trim() });
+            EZDemo.TextLibrary.addToLibrary("header", textInput.value.trim());
             EZDemo.TextLibrary.saveLibrary();
 
             // Update page with new value
@@ -318,6 +316,16 @@
             let itemID = headerItem.getAttribute("data-id");
 
             EZDemo.TextLibrary.enableEditMode(itemID);
+
+        },
+
+        // Adds an entry or header to the library
+        addToLibrary: (type, text) => {
+
+            // type: "entry", "header"
+
+            let newID = EZDemo.TextLibrary.getNewID();
+            EZDemo.TextLibrary.library.push({ "id": newID, "pos": 99/* EZDemo.TextLibrary.library.length */, "type": type, "checked": false, "text": text });
 
         },
 
@@ -452,6 +460,15 @@
                 EZDemo.TextLibrary.library.splice(index, 1);
                 EZDemo.TextLibrary.saveLibrary();
             }
+
+        },
+
+        // Rebuilds the 'pos' properties to be ordered from 0 to n
+        rebuildLibrarySort: () => {
+
+            EZDemo.TextLibrary.library.forEach((element, index) => {
+                element.pos = index;
+            });
 
         }
 
