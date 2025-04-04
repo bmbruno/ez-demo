@@ -1,16 +1,9 @@
-# EZDemo
+# Bruno's Toolbox
 
-A solution engineer's best friend.
+A collection of tools that help make my job easier.
 
 # Features
 
 ### Text Library
 
-Manage strings of text to quickly copy/paste where needed when running a demonstration.
-
-# ToDo
-
-* Open source - DONE 2025.03.11
-* Update app icon - DONE 2025.03.12
-* Configure sidebar as default open behavior - DONE 2025.03.12
-* Style for dark mode
+Manage strings of text to quickly copy/paste where needed when running a demonstration or filling out web forms.
