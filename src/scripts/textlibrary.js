@@ -196,6 +196,13 @@
 
             document.getElementById("ChecklistMode").checked = EZDemo.TextLibrary.checklistMode;
 
+            //
+            // Default cursor to Add Text input field (UX win!)
+            //
+
+            let textInput = document.getElementById("AddTextInput");
+            textInput.select();
+
         },
 
         // Saves data to local extension storage
