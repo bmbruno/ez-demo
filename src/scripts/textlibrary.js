@@ -49,26 +49,27 @@
 
         },
 
+        // Attaches event listeners to common buttons
         wireUI: () => {
 
             console.log("wireUI() called.");
 
-            // Add entry and add to library
+            // Add entry to library
             let addTextButton = document.getElementById("AddTextButton");
             if (addTextButton)
                 addTextButton.addEventListener("click", EZDemo.TextLibrary.handleAddEntryButtonClick);
 
-            // Save header and add to library
+            // Add header to library
             let addHeaderButton = document.getElementById("AddHeaderButton");
             if (addHeaderButton)
                 addHeaderButton.addEventListener("click", EZDemo.TextLibrary.handleAddHeaderButtonClick);
 
-            // Wire-up clear all button
+            // Clear all library content
             let clearAllButton = document.getElementById("ClearAll");
             if (clearAllButton)
                 clearAllButton.addEventListener("click", EZDemo.TextLibrary.handleClearAllClick);
 
-            // Checklist Mode checkbox click
+            // Checklist Mode checkbox toggle
             let checklistModeToggle = document.getElementById("ChecklistMode");
             if (checklistModeToggle)
                 checklistModeToggle.addEventListener("click", () => {
@@ -82,6 +83,7 @@
                 });
         },
 
+        // Renders the Text Library UI based on current state of the library
         updateUI: () => {
 
             //
@@ -125,6 +127,8 @@
                 libraryEmptyMessage.style.display = "none";
                 list.style.display = "block";
 
+                // TODO: sort library by 'pos' field
+
                 EZDemo.TextLibrary.library.forEach((element) => {
 
                     if (element.type == "entry") {
@@ -149,33 +153,35 @@
 
                 });
 
-                // Wire-up click event for 'text-item' (go to edit mode)
+                // Click event for entry to start edit mode
                 document.querySelectorAll(".text-item").forEach((element) => {
 
                     element.addEventListener("click", (e) => { EZDemo.TextLibrary.handleTextItemClick(e) });
 
                 });
 
-                // Wire-up key event when editing 'text-item'
+                // Key down event when editing 'text-item'
                 document.querySelectorAll(".text-item-edit-input").forEach((element) => {
 
                     element.addEventListener("keydown", (e) => { EZDemo.TextLibrary.handleTextEditKeydown(e) });
 
                 });
 
-                // Wire-up click event for delete button
+                // Click event for delete button
                 document.querySelectorAll(".delete-button").forEach((element) => {
 
                     element.addEventListener("click", (e) => { EZDemo.TextLibrary.handleDeleteClick(e) });
 
                 });
 
+                // Click event for header to start edit mode
                 document.querySelectorAll(".header-item").forEach((element) => {
 
                     element.addEventListener("click", (e) => { EZDemo.TextLibrary.handleHeaderItemClick(e) });
 
                 });
 
+                // Key down event when editing headers
                 document.querySelectorAll(".header-item-edit-input").forEach((element) => {
 
                     element.addEventListener("keydown", (e) => { EZDemo.TextLibrary.handleHeaderEditKeydown(e) });
@@ -237,7 +243,7 @@
 
         },
 
-        // Adds the new string to the library, if the textbox isn't empty
+        // Adds the new entry string to the library (if the textbox isn't empty)
         handleAddEntryButtonClick: () => {
 
             let textInput = document.getElementById("AddTextInput");
@@ -255,6 +261,7 @@
 
         },
 
+        // Addes the new header string to the library (if the textbox isn't empty)
         handleAddHeaderButtonClick: () => {
 
             let textInput = document.getElementById("AddTextInput");
@@ -383,6 +390,7 @@
 
         },
 
+        // When "Enter" is pressed during editing, update the current header value
         handleHeaderEditKeydown: (e) => {
 
             // Cancel with Escape
