@@ -81,6 +81,11 @@
                         EZDemo.TextLibrary.resetChecklist();
                     }
                 });
+
+            // Export button click event functionality
+            let exportButton = document.getElementById("ExportButton");
+            if (exportButton)
+                exportButton.addEventListener("click", EZDemo.TextLibrary.handleExportClick);
         },
 
         // Renders the Text Library UI based on current state of the library
@@ -187,7 +192,6 @@
                     element.addEventListener("keydown", (e) => { EZDemo.TextLibrary.handleHeaderEditKeydown(e) });
 
                 });
-
 
             } else {
 
@@ -477,6 +481,22 @@
             EZDemo.TextLibrary.library.forEach((element, index) => {
                 element.pos = index;
             });
+
+        },
+
+        // Handles the click of the Export button; triggers a download of the library content
+        handleExportClick: () => {
+
+            // Build psuedo-ancho
+            let element = document.createElement("a");
+            element.setAttribute('href', `data:text/plain;charset=utf-8,${encodeURIComponent(JSON.stringify(EZDemo.TextLibrary.library))}`);
+            element.setAttribute('download', "text-library-export.json");
+          
+            // Silently click the hidden anchor to trigger download; then remove from DOM
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
 
         }
 
