@@ -488,15 +488,25 @@
         handleExportClick: () => {
 
             // Build psuedo-ancho
-            let element = document.createElement("a");
-            element.setAttribute('href', `data:text/plain;charset=utf-8,${encodeURIComponent(JSON.stringify(EZDemo.TextLibrary.library))}`);
-            element.setAttribute('download', "text-library-export.json");
+            let anchor = document.createElement("a");
+            anchor.setAttribute('href', `data:text/plain;charset=utf-8,${encodeURIComponent(JSON.stringify(EZDemo.TextLibrary.library))}`);
+            anchor.setAttribute('download', "text-library-export.json");
           
             // Silently click the hidden anchor to trigger download; then remove from DOM
-            element.style.display = 'none';
-            document.body.appendChild(element);
-            element.click();
-            document.body.removeChild(element);
+            anchor.style.display = 'none';
+            document.body.appendChild(anchor);
+            anchor.click();
+            document.body.removeChild(anchor);
+
+        },
+
+        handleImportClick: () => {
+
+            // TODO: verify input is correct type of file (.json)
+
+            // TODO: upload file to File API and validate contents
+
+            // TODO: deserialized JSON into Library; call save function
 
         }
 
