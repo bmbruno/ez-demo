@@ -86,6 +86,21 @@
             let exportButton = document.getElementById("ExportButton");
             if (exportButton)
                 exportButton.addEventListener("click", EZDemo.TextLibrary.handleExportClick);
+
+            // Import button click event
+            let importButton = document.getElementById("ImportButton");
+            if (importButton)
+                importButton.addEventListener("click", EZDemo.TextLibrary.handleImportClick);
+
+            // Import file change (file uploaded)
+            let fileImportInput = document.getElementById("ImportFileInput");
+            if (fileImportInput) {
+                fileImportInput.addEventListener("change", (e) => {
+
+                    EZDemo.TextLibrary.handleFileImportInputChange(e);
+
+                });
+            }
         },
 
         // Renders the Text Library UI based on current state of the library
@@ -503,11 +518,34 @@
         handleImportClick: () => {
 
             // TODO: verify input is correct type of file (.json)
+            let fileInput = document.getElementById("ImportFileInput");
+            fileInput.click();
+
+        },
+
+        handleFileImportInputChange: (e) => {
 
             // TODO: upload file to File API and validate contents
+            let selectedFile = document.getElementById("ImportFileInput").files[0];
 
             // TODO: deserialized JSON into Library; call save function
+            let reader = new FileReader();
 
+            reader.addEventListener("load", () => {
+
+                if (!reader.result || reader.result.length <= 0) {
+                    alert("File is null, empty, or otherwise invalid. Please use a valid JSON file.");
+                }
+
+                EZDemo.TextLibrary.library = JSON.parse(reader.result);
+                EZDemo.TextLibrary.saveLibrary();
+                EZDemo.TextLibrary.updateUI();
+
+            });
+
+            if (selectedFile) {
+                reader.readAsText(selectedFile);
+            }
         }
 
     };
