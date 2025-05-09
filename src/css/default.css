@@ -7,7 +7,7 @@ body { background-color: #dadada; font-family: sans-serif; }
 
 .modal {
 
-    z-index: 10000; width: 100%; height: 100%; text-align: center; background-color: rgba(0, 0, 0, 0.5); position: absolute; left: 0; top: 0; backdrop-filter: blur(4px);
+    display: none; z-index: 10000; width: 100%; height: 100%; text-align: center; background-color: rgba(0, 0, 0, 0.5); position: absolute; left: 0; top: 0; backdrop-filter: blur(4px);
 
     .modal-content {
         display: block; background-color: #FFF; margin: 0 auto; padding: 2em; text-align: left; position: relative; top: 32px; width: 90%; box-shadow: 0 16px 24px #3d3d3d; border-radius: 8px; border: 1px solid #AAA;

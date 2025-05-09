@@ -82,6 +82,11 @@
                     }
                 });
 
+            // Import/Export button: show modal
+            let showImportExport = document.getElementById("ShowImportExportModal");
+            if (showImportExport)
+                showImportExport.addEventListener("click", () => { EZDemo.openModal("ImportExportModal"); });
+
             // Export button click event functionality
             let exportButton = document.getElementById("ExportButton");
             if (exportButton)
