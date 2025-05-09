@@ -515,6 +515,7 @@
 
         },
 
+        // When "Import" buton is clicked, triggers the hidden file input to start the upload process
         handleImportClick: () => {
 
             // TODO: verify input is correct type of file (.json)
@@ -523,6 +524,7 @@
 
         },
 
+        // When a file is uploaded: validate the file, loads its contents, validates those, and updates the library
         handleFileImportInputChange: (e) => {
 
             // TODO: upload file to File API and validate contents
@@ -540,6 +542,8 @@
                 EZDemo.TextLibrary.library = JSON.parse(reader.result);
                 EZDemo.TextLibrary.saveLibrary();
                 EZDemo.TextLibrary.updateUI();
+
+                EZDemo.closeModal("ExportImportModal");
 
             });
 

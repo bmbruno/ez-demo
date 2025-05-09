@@ -21,6 +21,7 @@
 
         },
 
+        // Opens the modal for the given ID
         openModal: (id) => {
 
             let modal = document.getElementById(id);
@@ -32,6 +33,7 @@
 
         },
 
+        // Closes the modal for the given ID
         closeModal: (id) => {
 
             let modal = document.getElementById(id);
@@ -42,6 +44,7 @@
 
         },
 
+        // Closes a modal for the given close button
         handleModalCloseClick: (e) => {
 
             if (!e)
