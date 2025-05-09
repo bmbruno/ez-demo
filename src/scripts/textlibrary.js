@@ -543,7 +543,7 @@
                 EZDemo.TextLibrary.saveLibrary();
                 EZDemo.TextLibrary.updateUI();
 
-                EZDemo.closeModal("ExportImportModal");
+                EZDemo.closeModal("ImportExportModal");
 
             });
 
