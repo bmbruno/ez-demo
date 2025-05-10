@@ -520,10 +520,9 @@
 
         },
 
-        // When "Import" buton is clicked, triggers the hidden file input to start the upload process
+        // When "Import" buton is clicked, this triggers the hidden file input to start the upload process
         handleImportClick: () => {
 
-            // TODO: verify input is correct type of file (.json)
             let fileInput = document.getElementById("ImportFileInput");
             fileInput.click();
 
@@ -532,29 +531,57 @@
         // When a file is uploaded: validate the file, loads its contents, validates those, and updates the library
         handleFileImportInputChange: (e) => {
 
-            // TODO: upload file to File API and validate contents
+            // Upload file to File API and validate type
             let selectedFile = document.getElementById("ImportFileInput").files[0];
 
-            // TODO: deserialized JSON into Library; call save function
+            if (!selectedFile.name.endsWith(".json")) {
+                alert("Must import a JSON file!");
+                return;
+            }
+
             let reader = new FileReader();
 
+            // Once file is loaded, validate and load into library
             reader.addEventListener("load", () => {
 
                 if (!reader.result || reader.result.length <= 0) {
                     alert("File is null, empty, or otherwise invalid. Please use a valid JSON file.");
                 }
 
-                EZDemo.TextLibrary.library = JSON.parse(reader.result);
-                EZDemo.TextLibrary.saveLibrary();
-                EZDemo.TextLibrary.updateUI();
+                // Validate contents are valid JSON and loads into the library successfully
+                try {
 
-                EZDemo.closeModal("ImportExportModal");
+                    let contents = JSON.parse(reader.result);
+
+                    // TODO: validate file format (all fields present: id, pos, entry/header, text)
+                    if (!EZDemo.TextLibrary.validFileFormat(contents)) {
+                        alert("File JSON not compatible with EZDemo.");
+                        return;
+                    }
+
+                    EZDemo.TextLibrary.library = contents;
+                    EZDemo.TextLibrary.saveLibrary();
+                    EZDemo.TextLibrary.updateUI();
+
+                    EZDemo.closeModal("ImportExportModal");
+
+                } catch (ex) {
+
+                    alert("Unable to load JSON file to library. File may not be compatible with EZDemo or is incorrectly formatted JSON.");
+                
+                }
 
             });
 
             if (selectedFile) {
                 reader.readAsText(selectedFile);
             }
+        },
+
+        validFileFormat: (contents) => {
+
+            return true;
+
         }
 
     };
