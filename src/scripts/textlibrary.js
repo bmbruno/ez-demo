@@ -535,6 +535,7 @@
             let selectedFile = document.getElementById("ImportFileInput").files[0];
 
             if (!selectedFile.name.endsWith(".json")) {
+                document.getElementById("ImportFileInput").value = "";
                 alert("Must import a JSON file!");
                 return;
             }
@@ -545,21 +546,24 @@
             reader.addEventListener("load", () => {
 
                 if (!reader.result || reader.result.length <= 0) {
+                    document.getElementById("ImportFileInput").value = "";
                     alert("File is null, empty, or otherwise invalid. Please use a valid JSON file.");
+                    return;
                 }
 
                 // Validate contents are valid JSON and loads into the library successfully
                 try {
 
-                    let contents = JSON.parse(reader.result);
+                    let jsonContents = JSON.parse(reader.result);
 
-                    // TODO: validate file format (all fields present: id, pos, entry/header, text)
-                    if (!EZDemo.TextLibrary.validFileFormat(contents)) {
+                    // Validate file format (all fields present: id, pos, entry/header, text)
+                    if (!EZDemo.TextLibrary.validFileFormat(jsonContents)) {
                         alert("File JSON not compatible with EZDemo.");
+                        document.getElementById("ImportFileInput").value = "";
                         return;
                     }
 
-                    EZDemo.TextLibrary.library = contents;
+                    EZDemo.TextLibrary.library = jsonContents;
                     EZDemo.TextLibrary.saveLibrary();
                     EZDemo.TextLibrary.updateUI();
 
@@ -567,8 +571,9 @@
 
                 } catch (ex) {
 
+                    document.getElementById("ImportFileInput").value = "";
                     alert("Unable to load JSON file to library. File may not be compatible with EZDemo or is incorrectly formatted JSON.");
-                
+                    return;
                 }
 
             });
@@ -578,7 +583,28 @@
             }
         },
 
-        validFileFormat: (contents) => {
+        // Determines if the provided JSON structure is valid for the TextLibrary library format
+        validFileFormat: (jsonContents) => {
+
+            // Must be an array
+            if (!Array.isArray(jsonContents))
+                return false;
+
+            // Special case: if this is an empty array, it's still technically a valid file
+            if (jsonContents.length === 0)
+                return true;
+
+            // Are all the expected properties present on each element?
+            for (let i = 0; i < jsonContents.length; i++) {
+
+                if (!jsonContents[i].hasOwnProperty("id") ||
+                    !jsonContents[i].hasOwnProperty("pos") ||
+                    !jsonContents[i].hasOwnProperty("type") ||
+                    !jsonContents[i].hasOwnProperty("checked") ||
+                    !jsonContents[i].hasOwnProperty("text")) {
+                        return false;
+                    }
+            }
 
             return true;
 
