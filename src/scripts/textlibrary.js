@@ -1,3 +1,12 @@
+/*
+
+TEXT LIBRARY
+
+This module allows users to set up text snippets that can be easily copied to the clipboard
+with a single click.
+
+*/
+
 (function() {
 
     window.EZDemo.TextLibrary = window.EZDemo.TextLibrary || {
@@ -9,12 +18,13 @@
         keyTextLibrary: "text-library",
         keyChecklistMode: "checklist-mode",
 
-        // Time (ms) before Copy button resets from "Copied!" label
+        // Time (ms) before Copy button resets back to "Copy" label
         buttonResetTimeout: 2000,
 
         // Checklist Mode will grey out entires as they are copied
         checklistMode: false,
 
+        // Sets up the module on page load (set up the UI, load library)
         init: () => {
 
             EZDemo.TextLibrary.wireUI();
@@ -81,6 +91,31 @@
                         EZDemo.TextLibrary.resetChecklist();
                     }
                 });
+
+            // Import/Export button: show modal
+            let showImportExport = document.getElementById("ShowImportExportModal");
+            if (showImportExport)
+                showImportExport.addEventListener("click", () => { EZDemo.openModal("ImportExportModal"); });
+
+            // Export button click event functionality
+            let exportButton = document.getElementById("ExportButton");
+            if (exportButton)
+                exportButton.addEventListener("click", EZDemo.TextLibrary.handleExportClick);
+
+            // Import button click event
+            let importButton = document.getElementById("ImportButton");
+            if (importButton)
+                importButton.addEventListener("click", EZDemo.TextLibrary.handleImportClick);
+
+            // Import file change (file uploaded)
+            let fileImportInput = document.getElementById("ImportFileInput");
+            if (fileImportInput) {
+                fileImportInput.addEventListener("change", (e) => {
+
+                    EZDemo.TextLibrary.handleFileImportInputChange(e);
+
+                });
+            }
         },
 
         // Renders the Text Library UI based on current state of the library
@@ -187,7 +222,6 @@
                     element.addEventListener("keydown", (e) => { EZDemo.TextLibrary.handleHeaderEditKeydown(e) });
 
                 });
-
 
             } else {
 
@@ -477,6 +511,112 @@
             EZDemo.TextLibrary.library.forEach((element, index) => {
                 element.pos = index;
             });
+
+        },
+
+        // Handles the click of the Export button; triggers a download of the library content
+        handleExportClick: () => {
+
+            // Build psuedo-ancho
+            let anchor = document.createElement("a");
+            anchor.setAttribute('href', `data:text/plain;charset=utf-8,${encodeURIComponent(JSON.stringify(EZDemo.TextLibrary.library))}`);
+            anchor.setAttribute('download', "text-library-export.json");
+          
+            // Silently click the hidden anchor to trigger download; then remove from DOM
+            anchor.style.display = 'none';
+            document.body.appendChild(anchor);
+            anchor.click();
+            document.body.removeChild(anchor);
+
+        },
+
+        // When "Import" buton is clicked, this triggers the hidden file input to start the upload process
+        handleImportClick: () => {
+
+            let fileInput = document.getElementById("ImportFileInput");
+            fileInput.click();
+
+        },
+
+        // When a file is uploaded: validate the file, loads its contents, validates those, and updates the library
+        handleFileImportInputChange: (e) => {
+
+            // Upload file to File API and validate type
+            let selectedFile = document.getElementById("ImportFileInput").files[0];
+
+            if (!selectedFile.name.endsWith(".json")) {
+                document.getElementById("ImportFileInput").value = "";
+                alert("Must import a JSON file!");
+                return;
+            }
+
+            let reader = new FileReader();
+
+            // Once file is loaded, validate and load into library
+            reader.addEventListener("load", () => {
+
+                if (!reader.result || reader.result.length <= 0) {
+                    document.getElementById("ImportFileInput").value = "";
+                    alert("File is null, empty, or otherwise invalid. Please use a valid JSON file.");
+                    return;
+                }
+
+                // Validate contents are valid JSON and loads into the library successfully
+                try {
+
+                    let jsonContents = JSON.parse(reader.result);
+
+                    // Validate file format (all fields present: id, pos, entry/header, text)
+                    if (!EZDemo.TextLibrary.validFileFormat(jsonContents)) {
+                        alert("File JSON not compatible with EZDemo.");
+                        document.getElementById("ImportFileInput").value = "";
+                        return;
+                    }
+
+                    EZDemo.TextLibrary.library = jsonContents;
+                    EZDemo.TextLibrary.saveLibrary();
+                    EZDemo.TextLibrary.updateUI();
+
+                    EZDemo.closeModal("ImportExportModal");
+
+                } catch (ex) {
+
+                    document.getElementById("ImportFileInput").value = "";
+                    alert("Unable to load JSON file to library. File may not be compatible with EZDemo or is incorrectly formatted JSON.");
+                    return;
+                }
+
+            });
+
+            if (selectedFile) {
+                reader.readAsText(selectedFile);
+            }
+        },
+
+        // Determines if the provided JSON structure is valid for the TextLibrary library format
+        validFileFormat: (jsonContents) => {
+
+            // Must be an array
+            if (!Array.isArray(jsonContents))
+                return false;
+
+            // Special case: if this is an empty array, it's still technically a valid file
+            if (jsonContents.length === 0)
+                return true;
+
+            // Are all the expected properties present on each element?
+            for (let i = 0; i < jsonContents.length; i++) {
+
+                if (!jsonContents[i].hasOwnProperty("id") ||
+                    !jsonContents[i].hasOwnProperty("pos") ||
+                    !jsonContents[i].hasOwnProperty("type") ||
+                    !jsonContents[i].hasOwnProperty("checked") ||
+                    !jsonContents[i].hasOwnProperty("text")) {
+                        return false;
+                    }
+            }
+
+            return true;
 
         }
 
