@@ -28,7 +28,6 @@
             if (!modal)
                 return;
 
-            // TODO: open model
             modal.style.display = "block";
 
         },

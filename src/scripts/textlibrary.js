@@ -1,3 +1,12 @@
+/*
+
+TEXT LIBRARY
+
+This module allows users to set up text snippets that can be easily copied to the clipboard
+with a single click.
+
+*/
+
 (function() {
 
     window.EZDemo.TextLibrary = window.EZDemo.TextLibrary || {
@@ -9,12 +18,13 @@
         keyTextLibrary: "text-library",
         keyChecklistMode: "checklist-mode",
 
-        // Time (ms) before Copy button resets from "Copied!" label
+        // Time (ms) before Copy button resets back to "Copy" label
         buttonResetTimeout: 2000,
 
         // Checklist Mode will grey out entires as they are copied
         checklistMode: false,
 
+        // Sets up the module on page load (set up the UI, load library)
         init: () => {
 
             EZDemo.TextLibrary.wireUI();
