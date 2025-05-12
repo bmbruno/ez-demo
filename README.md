@@ -16,10 +16,10 @@ Create text snippets that can be quickly copied and pasted where needed - for ex
 
 # Version History
 
-## 1.10
+## 1.1.0
 
 * Added Import/Export functionality
 
-## 1.00
+## 1.0.0
 
 * Initial launch (Text Library)
