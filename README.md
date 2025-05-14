@@ -16,6 +16,11 @@ Create text snippets that can be quickly copied and pasted where needed - for ex
 
 # Version History
 
+## 1.1.1
+
+* Changed Import/Export dialog to generic Settings panel
+* Moved Checkbox Mode checkbox to Text Library Settings
+
 ## 1.1.0
 
 * Added Import/Export functionality
