@@ -19,8 +19,6 @@
 
         <div id="TextLibrary" class="panel main">
 
-            <div class="checklist-toggle"><input type="checkbox" id="ChecklistMode" /><label for="ChecklistMode">Checklist Mode</label></div>
-
             <ul id="LibraryList" class="library-list"></ul>
 
             <div id="LibraryEmpty" class="library-empty">Library is empty.</div>
@@ -39,7 +37,7 @@
             <div class="submenu">
                 <span>
                     <button type="button" id="ClearAll" class="btn"><i class="fa fa-eraser" aria-hidden="true"></i> Clear All</button>&nbsp;&nbsp;
-                    <button type="button" id="ShowImportExportModal" class="btn"><i class="fa fa-exchange" aria-hidden="true"></i></button>
+                    <button type="button" id="ShowImportExportModal" class="btn"><i class="fa fa-cog" aria-hidden="true"></i></button>
                 </span>
             </div>
 
@@ -60,6 +58,11 @@
                 <p>Load a library file, completely replacing the current library.</p>
 
                 <input type="file" id="ImportFileInput" style="display: none;" />
+
+                <h2>Other Settings</h2>
+
+                <input type="checkbox" id="ChecklistMode" /><label for="ChecklistMode">Checklist Mode</label>
+                <p>Adds strikethrough to copied items. Uncheck this to reset the library checklist.</p>
 
             </div>
             
