@@ -11,11 +11,13 @@ body { background-color: #dadada; font-family: sans-serif; }
 
     .modal-content {
         display: block; background-color: #FFF; margin: 0 auto; padding: 2em; text-align: left; position: relative; top: 32px; width: 90%; box-shadow: 0 16px 24px #3d3d3d; border-radius: 8px; border: 1px solid #AAA;
-    
-        h2 { max-width: 90%; margin: 0.75em 0; border-bottom: 1px dotted #959595; }
+        
+        h2 { margin: 0.75em 0; border-bottom: 1px dotted #727272; }
         h2:first-of-type { margin: 0 0 .75em 0; }
         p:last-of-type { margin-bottom: 0; }
-    
+        .group { max-width: 90%; margin-bottom: 2em; }
+        .group:last-of-type { margin-bottom: 0; }
+
         .close-modal { display: block; position: absolute;  right: 1em; top: 1em; font-size: 20px; color: #000; }
     }
 }
@@ -39,7 +41,6 @@ h6 { font-size: 1.25em; text-align: center;padding: 0.5em 0; background-color: #
 .add-text {
     margin: 2em 0; padding: 1em; background-color: #bdbdbd; border-radius: 4px; box-shadow: 0 4px 16px #686868; label { margin: 0 0 0.25em 0; }
     input[type="text"] { margin: 0 0 0.5em 0; }
-
 }
 
 .entry { 
@@ -50,7 +51,6 @@ h6 { font-size: 1.25em; text-align: center;padding: 0.5em 0; background-color: #
     .button-container { min-width: 120px; }
 
     .text-item-copy-button { width: 100%; }
-
 }
 
 .display-container.checklist-done .text-item-copy-button { color: #CCC; box-shadow: 0 2px 0 #CCC; }
@@ -64,7 +64,6 @@ h6 { font-size: 1.25em; text-align: center;padding: 0.5em 0; background-color: #
     padding: 0em;
 
     li { list-style-type: none; margin: 0 0 2em 0; }
-
 }
 
 .library-empty { text-align: center; font-size: 1.25em; padding: 1em 0; }
