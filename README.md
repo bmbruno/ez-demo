@@ -20,6 +20,7 @@ Create text snippets that can be quickly copied and pasted where needed - for ex
 
 * Changed Import/Export dialog to generic Settings panel
 * Moved Checkbox Mode checkbox to Text Library Settings
+* After being dismissed, the extension will re-open to the last used tool
 
 ## 1.1.0
 
