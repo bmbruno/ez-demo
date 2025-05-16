@@ -36,6 +36,7 @@ Also provides onload redirection to the last used tool, if applicable.
             chrome.storage.local.get([EZDemo.keyLastUsedTool]).then((result) => {
 
                 try {
+                    
                     if (!result || typeof result === "undefined") {
                         console.log("'keyLastUsedTool' is null or undefined! Nothing to load.");
                         return;
@@ -48,7 +49,9 @@ Also provides onload redirection to the last used tool, if applicable.
                     window.location = chrome.runtime.getURL(`/src/side-${result[EZDemo.keyLastUsedTool]}.html`);
                         
                 } catch (ex) {
-                    console.log(`Error while processing 'keyLastUsed'. Exception: ${ex}.`);
+
+                    console.log(`Error while processing 'keyLastUsed'. Resetting to 'home' page. Exception: ${ex}.`);
+                    EZDemo.setCurrentTool(EZDemo.Home.toolName);
                 }
             });
 
