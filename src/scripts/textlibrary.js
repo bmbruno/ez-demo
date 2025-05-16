@@ -11,6 +11,9 @@ with a single click.
 
     window.EZDemo.TextLibrary = window.EZDemo.TextLibrary || {
 
+        // Name of this page/tool; used for remembering last-used tool; should match filename convention
+        toolName: "textlibrary",
+
         // Library data
         library: [],
 
@@ -26,6 +29,8 @@ with a single click.
 
         // Sets up the module on page load (set up the UI, load library)
         init: () => {
+
+            EZDemo.setCurrentTool(EZDemo.TextLibrary.toolName);
 
             EZDemo.TextLibrary.wireUI();
 
@@ -593,7 +598,7 @@ with a single click.
             }
         },
 
-        // Determines if the provided JSON structure is valid for the TextLibrary library format
+        // Determines if the provided JSON structure is valid for the TextLibrary format
         validFileFormat: (jsonContents) => {
 
             // Must be an array

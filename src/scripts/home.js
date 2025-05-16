@@ -1,0 +1,64 @@
+/*
+
+HOME
+
+Provides navigation to other EZDemo modules.
+Also provides onload redirection to the last used tool, if applicable.
+
+*/
+
+(function() {
+
+    window.EZDemo.Home = window.EZDemo.Home || {
+
+        // Name of this page/tool; used for remembering last-used tool; should match filename convention
+        toolName: "home",
+
+        // Initializes this module with setup tasks
+        init: () => {
+
+            // If user is navigating to this page from another tool, update current tool to 'default' and skip redirect
+            if (EZDemo.Home.isNavigatingToHome()) {
+
+                EZDemo.setCurrentTool(EZDemo.Home.toolName);
+
+            } else {
+
+                // TODO: avoid an unnecessary redirect on first load if the stored tool is 'home'
+                EZDemo.Home.redirectToLastUsedTool();
+
+            }
+        },
+
+        // Checks if a last-used tool reference is in storage; if so, redirects to that page
+        redirectToLastUsedTool: () => {
+
+            chrome.storage.local.get([EZDemo.keyLastUsedTool]).then((result) => {
+
+                if (!result || typeof result === "undefined") {
+                    console.log("'keyLastUsedTool' is null or undefined! Nothing to load.");
+                    return;
+                }
+
+                if (result[EZDemo.keyLastUsedTool] === EZDemo.Home.toolName)
+                    return;
+
+                // Redirect; getURL provides the correct absolute path within this extension
+                window.location = chrome.runtime.getURL(`/src/side-${result[EZDemo.keyLastUsedTool]}.html`);
+            });
+
+        },
+
+        // Determines if the user is purposefully navigating to this page; based on URL param "nav"
+        isNavigatingToHome: () => {
+
+            let params = new URLSearchParams(window.location.search);
+            return params.has("nav", "true");
+
+        }
+
+    };
+
+    EZDemo.Home.init();
+
+})();

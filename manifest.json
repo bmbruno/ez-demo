@@ -24,7 +24,7 @@
     "content_scripts": [],
 
     "side_panel": { 
-        "default_path": "src/side-default.html"
+        "default_path": "src/side-home.html"
     },
 
     "action": {

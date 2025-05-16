@@ -1,14 +1,27 @@
+/*
+
+default.js
+
+Provides common functionality across all modules.
+This script should be included on all module pages.
+
+*/
+
 (function() {
 
     window.EZDemo = window.EZDemo || {
+        
+        // Keys for local extension storage
+        keyLastUsedTool: "last-used-tool",
 
+        // Initializes this module with setup tasks
         init: () => {
 
             console.log("EZD init started...");
 
-            EZDemo.wireUI();
-
             console.log("EZD init complete.");
+
+            EZDemo.wireUI();
 
         },
 
@@ -52,6 +65,17 @@
             let modalID = e.getAttribute("data-id");
             EZDemo.closeModal(modalID);
 
+        },
+
+        // Sets the current tool being used; should be called during init
+        setCurrentTool: (tool) => {
+
+            chrome.storage.local.set({ [EZDemo.keyLastUsedTool] : tool }).then(() => {
+
+                console.log(`Data saved for key '${EZDemo.keyLastUsedTool}': ${tool}`);
+
+            });
+            
         }
 
     };
