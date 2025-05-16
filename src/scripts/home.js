@@ -35,16 +35,21 @@ Also provides onload redirection to the last used tool, if applicable.
 
             chrome.storage.local.get([EZDemo.keyLastUsedTool]).then((result) => {
 
-                if (!result || typeof result === "undefined") {
-                    console.log("'keyLastUsedTool' is null or undefined! Nothing to load.");
-                    return;
+                try {
+                    if (!result || typeof result === "undefined") {
+                        console.log("'keyLastUsedTool' is null or undefined! Nothing to load.");
+                        return;
+                    }
+
+                    if (result[EZDemo.keyLastUsedTool] === EZDemo.Home.toolName)
+                        return;
+
+                    // Redirect; getURL provides the correct absolute path within this extension
+                    window.location = chrome.runtime.getURL(`/src/side-${result[EZDemo.keyLastUsedTool]}.html`);
+                        
+                } catch (ex) {
+                    console.log(`Error while processing 'keyLastUsed'. Exception: ${ex}.`);
                 }
-
-                if (result[EZDemo.keyLastUsedTool] === EZDemo.Home.toolName)
-                    return;
-
-                // Redirect; getURL provides the correct absolute path within this extension
-                window.location = chrome.runtime.getURL(`/src/side-${result[EZDemo.keyLastUsedTool]}.html`);
             });
 
         },
