@@ -19,9 +19,9 @@ This script should be included on all module pages.
 
             console.log("EZD init started...");
 
-            console.log("EZD init complete.");
-
             EZDemo.wireUI();
+
+            console.log("EZD init complete.");
 
         },
 
