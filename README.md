@@ -1,10 +1,12 @@
 # EZ Demo: Bruno's Toolbox
 
-A collection of tools that help make my job day job easier.
+A Chrome/Edge extension with a collection of tools that help make my job day job easier.
+
+Currently this includes one tool: the Snippet Library. Additional tools will be coming; if you have an idea for a tool, please reach out to me on LinkedIn or via email: bmbruno@gmail.com
 
 # Features
 
-### Text Library
+### Snippet Library
 
 Create text snippets that can be quickly copied and pasted where needed - for example, while running a demonstration or filling out web forms.
 
@@ -19,7 +21,7 @@ Create text snippets that can be quickly copied and pasted where needed - for ex
 ## 1.1.1
 
 * Changed Import/Export dialog to generic Settings panel
-* Moved Checkbox Mode checkbox to Text Library Settings
+* Moved Checkbox Mode checkbox to Snippet Library Settings
 * After being dismissed, the extension will re-open to the last used tool
 
 ## 1.1.0
@@ -28,4 +30,4 @@ Create text snippets that can be quickly copied and pasted where needed - for ex
 
 ## 1.0.0
 
-* Initial launch (Text Library)
+* Initial launch (Snippet Library)
