@@ -16,15 +16,14 @@ Also provides onload redirection to the last used tool, if applicable.
 
         // Initializes this module with setup tasks
         init: () => {
-
-            // If user is navigating to this page from another tool, update current tool to 'default' and skip redirect
+            
+            // If user is navigating to this page from another tool, update current tool to 'home' and skip redirect
             if (EZDemo.Home.isNavigatingToHome()) {
 
                 EZDemo.setCurrentTool(EZDemo.Home.toolName);
 
             } else {
 
-                // TODO: avoid an unnecessary redirect on first load if the stored tool is 'home'
                 EZDemo.Home.redirectToLastUsedTool();
 
             }
@@ -42,6 +41,7 @@ Also provides onload redirection to the last used tool, if applicable.
                         return;
                     }
 
+                    // Avoid an unnecessary redirect on first load if the stored tool is 'home'
                     if (result[EZDemo.keyLastUsedTool] === EZDemo.Home.toolName)
                         return;
 
@@ -50,8 +50,10 @@ Also provides onload redirection to the last used tool, if applicable.
                         
                 } catch (ex) {
 
+                    // Exception: just reset the current tool to 'home' for the next reload of the extension
                     console.log(`Error while processing 'keyLastUsed'. Resetting to 'home' page. Exception: ${ex}.`);
                     EZDemo.setCurrentTool(EZDemo.Home.toolName);
+
                 }
             });
 

@@ -67,7 +67,7 @@ This script should be included on all module pages.
 
         },
 
-        // Sets the current tool being used; should be called during init
+        // Sets the current tool being used; should be called during init() function on each page
         setCurrentTool: (tool) => {
 
             chrome.storage.local.set({ [EZDemo.keyLastUsedTool] : tool }).then(() => {

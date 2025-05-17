@@ -34,6 +34,10 @@ with a single click.
 
             EZDemo.TextLibrary.wireUI();
 
+            // TODO: consider a composition function to manage both of these promises; could use
+            //       a finally() thenable to handle updateUI() function call
+
+            // Load library from storage
             chrome.storage.local.get([EZDemo.TextLibrary.keyTextLibrary]).then((result) => {
 
                 if (!result || typeof result === "undefined") {
@@ -51,6 +55,7 @@ with a single click.
                 }
             });
 
+            // Load checklist mode setting from storage
             chrome.storage.local.get([EZDemo.TextLibrary.keyChecklistMode]).then((result) => {
 
                 if (!result || typeof result === "undefined") {
@@ -167,7 +172,7 @@ with a single click.
                 libraryEmptyMessage.style.display = "none";
                 list.style.display = "block";
 
-                // TODO: sort library by 'pos' field
+                // TODO: sort library by 'pos' field (sections and entries)
 
                 EZDemo.TextLibrary.library.forEach((element) => {
 
