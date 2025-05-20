@@ -54,6 +54,9 @@ Also provides onload redirection to the last used tool, if applicable.
                     console.log(`Error while processing 'keyLastUsed'. Resetting to 'home' page. Exception: ${ex}.`);
                     EZDemo.setCurrentTool(EZDemo.Home.toolName);
 
+                    // Always redirect to home in case of an exception
+                    window.location = chrome.runtime.getURL(`/src/side-home.html`);
+
                 }
             });
 
