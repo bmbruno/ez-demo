@@ -1,30 +1,15 @@
 [
     {
-        "id": 0,
+        "id": 1,
+        "section": "Section Alpha",
         "pos": 1,
-        "type": "entry",
-        "checked": "true",
-        "text": "test string one"
-    },
-    {
-        "id": 2,
-        "pos": 2,
-        "type": "header",
-        "text": "My new header"
-    },
-    { 
-        "id": 3,
-        "pos": 3,
-        "type": "entry",
-        "checked": "false",
-        "text": "more strings and text to test"
-    },
-    { 
-        "id": 4,
-        "pos": 4,
-        "type": "entry",
-        "checked": "false",
-        "text": "this stuff"
+        "entries": [
+            {
+                "id": 123,
+                "pos": 1,
+                "checked": false,
+                "text": "more string and text to test"
+            }
+        ]
     }
-
 ]
