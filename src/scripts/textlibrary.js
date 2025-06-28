@@ -154,15 +154,18 @@ with a single click.
                     </div>
                 </li>`;
 
-            let templateHeader = `
-                <li>
+            let templateSection = `
+                <div>
                     <div class="display-container" id="display-container-{{ID}}">
                         <h6 class="header-item" data-id="{{ID}}">{{TEXT}}</h6>
                     </div>
                     <div class="edit-container" id="edit-container-{{ID}}">
                         <input type="text" class="header-item-edit-input" value="{{TEXT}}" data-original="{{TEXT}}" id="input-{{ID}}" /><button class="btn small delete-button" data-id="{{ID}}"><i class="fa fa-trash" aria-hidden="true"></i></button>
                     </div>
-                </li>`;
+
+                    {{ENTRIES}}
+
+                </div>`;
 
             let output = "";
 
@@ -172,8 +175,31 @@ with a single click.
                 libraryEmptyMessage.style.display = "none";
                 list.style.display = "block";
 
-                // TODO: sort library by 'pos' field (sections and entries)
+                // Render section, then entries for each
+                EZDemo.TextLibrary.library.forEach((section) => {
 
+                    let sectionOutput = "";
+
+                    // Render entries for this section
+                    element.entries.forEach((entry) => {
+
+                        let entryOutput = "";
+
+                        entryOutput += templateEntry.replaceAll("{{TEXT}}", entry.text)
+                                                    .replaceAll("{{CHECKLIST}}", (entry.checked) ? "checklist-done" : "")
+                                                    .replaceAll("{{ID}}", entry.id);
+                    });
+
+                    sectionOutput += templateSection.replaceAll("{{ID}}", section.id)
+                                                    .replaceAll("{{TEXT}}", section.text)
+                                                    .replaceAll("{{ENTRIES}}", entryOutput);
+
+                });
+
+
+
+                // REMOVE
+                /*
                 EZDemo.TextLibrary.library.forEach((element) => {
 
                     if (element.type == "entry") {
@@ -183,11 +209,12 @@ with a single click.
                     }
 
                     if (element.type == "header") {
-                        output += templateHeader.replaceAll("{{TEXT}}", element.text)
-                                                .replaceAll("{{ID}}", element.id);
+                        output += templateSection.replaceAll("{{TEXT}}", element.text)
+                                                 .replaceAll("{{ID}}", element.id);
                     }
 
                 });
+                */
 
                 list.innerHTML = output;
 
@@ -251,8 +278,8 @@ with a single click.
             // Default cursor to Add Text input field (UX win!)
             //
 
-            let textInput = document.getElementById("AddTextInput");
-            textInput.select();
+            // let textInput = document.getElementById("AddTextInput");
+            // textInput.select();
 
         },
 
