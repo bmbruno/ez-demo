@@ -79,10 +79,10 @@ with a single click.
             if (addTextButton)
                 addTextButton.addEventListener("click", EZDemo.TextLibrary.handleAddEntryButtonClick);
 
-            // Add header to library
-            let addHeaderButton = document.getElementById("AddHeaderButton");
-            if (addHeaderButton)
-                addHeaderButton.addEventListener("click", EZDemo.TextLibrary.handleAddHeaderButtonClick);
+            // Add section button wire-up
+            let addSectionButton = document.getElementById("AddSectionButton");
+            if (addSectionButton)
+                addSectionButton.addEventListener("click", EZDemo.TextLibrary.handleAddSectionButtonClick);
 
             // Clear all library content
             let clearAllButton = document.getElementById("ClearAll");
@@ -305,17 +305,17 @@ with a single click.
 
         },
 
-        // Addes the new header string to the library (if the textbox isn't empty)
-        handleAddHeaderButtonClick: () => {
+        // Addes the new section to the library (if the textbox isn't empty)
+        handleAddSectionButtonClick: () => {
 
-            let textInput = document.getElementById("AddTextInput");
+            let textInput = document.getElementById("AddSectionInput");
 
             if (!textInput || textInput.value == "") {
-                console.log("AddTextInput is null or empty!");
+                console.log("AddSectionInput is null or empty!");
                 return;
             }
 
-            EZDemo.TextLibrary.addToLibrary("header", textInput.value.trim());
+            EZDemo.TextLibrary.addToLibrary(textInput.value.trim());
             EZDemo.TextLibrary.saveLibrary();
 
             // Update page with new value
@@ -370,14 +370,33 @@ with a single click.
 
         },
 
-        // Adds an entry or header to the library
-        addToLibrary: (type, text) => {
-
-            // type: "entry", "header"
+        // Adds a section to the library
+        addToLibrary: (sectionHeaderText) => {
 
             let newID = EZDemo.TextLibrary.getNewID();
-            EZDemo.TextLibrary.library.push({ "id": newID, "pos": EZDemo.TextLibrary.library.length, "type": type, "checked": false, "text": text });
+            EZDemo.TextLibrary.library.push({ "id": newID, "pos": EZDemo.TextLibrary.library.length, "section": sectionHeaderText, "entries": [] });
 
+        },
+
+        // Adds an entry to the given section
+        addToSection: (entryText, sectionID) => {
+
+            if (!sectionID) {
+                console.log(`addToSection: 'sectionID' is null or empty; nothing to add.`);
+                return;
+            }
+
+            // TODO: add this entry text to the given section
+            let section = EZDemo.library.find((element) => element.id === sectionID);
+
+            if (!section) {
+                console.log(`addToSection: no section found for ID '${sectionID}'.`);
+                return;
+            }
+
+            let newID = EZDemo.TextLibrary.getNewID();
+            section.push({ "id": newID, "pos": section.length, "checked": false, "text": entryText });
+            
         },
 
         // Switches the given item (ID) into edit mode
