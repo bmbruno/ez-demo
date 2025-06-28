@@ -179,11 +179,10 @@ with a single click.
                 EZDemo.TextLibrary.library.forEach((section) => {
 
                     let sectionOutput = "";
+                    let entryOutput = "";
 
                     // Render entries for this section
-                    element.entries.forEach((entry) => {
-
-                        let entryOutput = "";
+                    section.entries.forEach((entry) => {
 
                         entryOutput += templateEntry.replaceAll("{{TEXT}}", entry.text)
                                                     .replaceAll("{{CHECKLIST}}", (entry.checked) ? "checklist-done" : "")
