@@ -1,8 +1,8 @@
 {
     "manifest_version" : 3,
     "name": "EZDemo: Bruno's Toolbox",
-    "description": "A collection of tools for managing text across web pages.",
-    "version": "1.1.1",
+    "description": "Managed text snippets to copy & paste into web pages and other places.",
+    "version": "1.1.2",
     "author": {
         "email": "bmbruno@gmail.com"
     },
