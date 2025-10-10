@@ -1,8 +1,8 @@
 {
     "manifest_version" : 3,
-    "name": "EZDemo: Bruno's Toolbox",
-    "description": "A collection of tools for managing text across web pages.",
-    "version": "1.1.1",
+    "name": "EZDemo: Text Library",
+    "description": "A simple text manager to quickly copy+paste text to webpages.",
+    "version": "1.2.0",
     "author": {
         "email": "bmbruno@gmail.com"
     },
@@ -24,7 +24,7 @@
     "content_scripts": [],
 
     "side_panel": { 
-        "default_path": "src/side-home.html"
+        "default_path": "src/side-textlibrary.html"
     },
 
     "action": {

@@ -11,9 +11,6 @@ with a single click.
 
     window.EZDemo.TextLibrary = window.EZDemo.TextLibrary || {
 
-        // Name of this page/tool; used for remembering last-used tool; should match filename convention
-        toolName: "textlibrary",
-
         // Library data
         library: [],
 
@@ -29,8 +26,6 @@ with a single click.
 
         // Sets up the module on page load (set up the UI, load library)
         init: () => {
-
-            EZDemo.setCurrentTool(EZDemo.TextLibrary.toolName);
 
             EZDemo.TextLibrary.wireUI();
 
@@ -548,7 +543,7 @@ with a single click.
 
         },
 
-        // When a file is uploaded: validate the file, loads its contents, validates those, and updates the library
+        // When a file is uploaded: validate the file, loads its contents, validates those, and update the library
         handleFileImportInputChange: (e) => {
 
             // Upload file to File API and validate type
