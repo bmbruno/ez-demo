@@ -16,13 +16,15 @@ Also provides onload redirection to the last used tool, if applicable.
 
         // Initializes this module with setup tasks
         init: () => {
-            
+                        
             // If user is navigating to this page from another tool, update current tool to 'home' and skip redirect
             if (EZDemo.Home.isNavigatingToHome()) {
 
                 EZDemo.setCurrentTool(EZDemo.Home.toolName);
 
             } else {
+
+                // TODO: possible issue: if storage.local doesn't have keyLastUseTool set, then user should stay on home page
 
                 EZDemo.Home.redirectToLastUsedTool();
 
