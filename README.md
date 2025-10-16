@@ -16,7 +16,7 @@ Create text snippets that can be quickly copied and pasted where needed - for ex
 
 ## 1.2.0
 
-* Removed multi-tool concept; simplified down to just Text Snippet tool
+* Removed multi-tool concept; simplified down to just Snippet Library tool
 
 ## 1.1.1
 
