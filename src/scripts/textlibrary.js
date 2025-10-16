@@ -1,9 +1,8 @@
 /*
 
-TEXT LIBRARY
+SNIPPET LIBRARY
 
-This module allows users to set up text snippets that can be easily copied to the clipboard
-with a single click.
+This module allows users to set up text snippets that can be easily copied to the clipboard with a single click.
 
 */
 
@@ -123,7 +122,7 @@ with a single click.
             }
         },
 
-        // Renders the Text Library UI based on current state of the library
+        // Renders the Snippet Library UI based on current state of the library
         updateUI: () => {
 
             //
@@ -391,7 +390,7 @@ with a single click.
 
         },
 
-        // Delete button logic: removes the selected string from the text library
+        // Delete button logic: removes the selected string from the snippet library
         handleDeleteClick: (e) => {
 
             let itemID = e.currentTarget.getAttribute("data-id");
