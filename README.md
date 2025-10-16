@@ -1,12 +1,8 @@
-# EZ Demo: Bruno's Toolbox
+# EZ Demo: Snippet Library
 
-A Chrome/Edge extension with a collection of tools that help make my job day job easier.
-
-Currently this includes one tool: the Snippet Library. Additional tools will be coming; if you have an idea for a tool, please reach out to me on LinkedIn or via email: bmbruno@gmail.com
+A Chrome extension for managing text snippets that can be copied and pasted where needed.
 
 # Features
-
-### Snippet Library
 
 Create text snippets that can be quickly copied and pasted where needed - for example, while running a demonstration or filling out web forms.
 
@@ -17,6 +13,10 @@ Create text snippets that can be quickly copied and pasted where needed - for ex
  * Coming soon: drag-and-drop re-ordering
 
 # Version History
+
+## 1.2.0
+
+* Removed multi-tool concept; simplified down to just Text Snippet tool
 
 ## 1.1.1
 
