@@ -7,6 +7,10 @@
         "email": "bmbruno@gmail.com"
     },
 
+    "action": {
+        "default_title": "Snippet Library"
+    },
+
     "icons": {
         "16": "src/images/icons/ezdemo-icon-16.png",
         "128": "src/images/icons/ezdemo-icon-128.png"
@@ -25,9 +29,5 @@
 
     "side_panel": { 
         "default_path": "src/side-textlibrary.html"
-    },
-
-    "action": {
-        "default_title": "Click to Open Panel"
     }
 }
