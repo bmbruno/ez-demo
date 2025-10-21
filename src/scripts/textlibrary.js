@@ -624,28 +624,7 @@ This module allows users to set up text snippets that can be easily copied to th
 
             return true;
 
-        },
-
-        //
-        // Drag and drop logic
-        //
-
-        // Sits up drag-and-drop logic
-        initDraggable: () => {
-
-            // TODO: remove / unwire all existing logic
-
-            // TODO: set up drag and drop functions
-
-            let dragItems = document.querySelectorAll('.drag-item');
-
-            if (!dragItems || dragItems.length == 0)
-                return;
-
-            
-
         }
-
 
     };
 
