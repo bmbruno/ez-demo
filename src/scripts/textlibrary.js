@@ -229,6 +229,9 @@ This module allows users to set up text snippets that can be easily copied to th
 
                 });
 
+                // Drag and drop logic
+                // AEZDrag.init();
+
             } else {
 
                 // Library is empty
