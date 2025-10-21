@@ -15,11 +15,11 @@ This script should be included on all module pages.
         // Initializes this module with setup tasks
         init: () => {
 
-            console.log("EZD init started...");
+            console.log("EZDemo initialization started...");
 
             EZDemo.wireUI();
 
-            console.log("EZD init complete.");
+            console.log("EZDemo initialization complete.");
 
         },
 

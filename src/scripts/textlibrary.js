@@ -26,12 +26,11 @@ This module allows users to set up text snippets that can be easily copied to th
         // Sets up the module on page load (set up the UI, load library)
         init: () => {
 
+            console.log("init() called.");
+
             EZDemo.TextLibrary.wireUI();
 
-            // TODO: consider a composition function to manage both of these promises; could use
-            //       a finally() thenable to handle updateUI() function call
-
-            // Load library from storage
+            // Load library from storage (there's a sequence of events, hence the chained promises)
             chrome.storage.local.get([EZDemo.TextLibrary.keyTextLibrary]).then((result) => {
 
                 if (!result || typeof result === "undefined") {
@@ -42,23 +41,28 @@ This module allows users to set up text snippets that can be easily copied to th
                 try {
 
                     EZDemo.TextLibrary.library = JSON.parse(result[EZDemo.TextLibrary.keyTextLibrary]) || [];
-                    EZDemo.TextLibrary.updateUI();
 
                 } catch (ex) {
                     console.log(`Error loading library: ${ex}`);
                 }
-            });
+            }).then(() => {
 
-            // Load checklist mode setting from storage
-            chrome.storage.local.get([EZDemo.TextLibrary.keyChecklistMode]).then((result) => {
+                // Load checklist mode setting from storage
+                chrome.storage.local.get([EZDemo.TextLibrary.keyChecklistMode]).then((result) => {
 
-                if (!result || typeof result === "undefined") {
-                    console.log("'keyChecklistMode' is null or undefined! Nothing to load.");
-                    return;
-                }
+                    if (!result || typeof result === "undefined") {
+                        console.log("'keyChecklistMode' is null or undefined! Nothing to load.");
+                        return;
+                    }
 
-                EZDemo.TextLibrary.checklistMode = result[EZDemo.TextLibrary.keyChecklistMode];
+                    EZDemo.TextLibrary.checklistMode = result[EZDemo.TextLibrary.keyChecklistMode];
+                    
+                });
+
+            }).finally(() => {
+
                 EZDemo.TextLibrary.updateUI();
+
             });
 
         },
@@ -124,6 +128,8 @@ This module allows users to set up text snippets that can be easily copied to th
 
         // Renders the Snippet Library UI based on current state of the library
         updateUI: () => {
+
+            console.log("updateUI() called.")
 
             //
             // Render Library list
@@ -230,7 +236,7 @@ This module allows users to set up text snippets that can be easily copied to th
                 });
 
                 // Drag and drop logic
-                // AEZDrag.init();
+                EZDrag.init();
 
             } else {
 

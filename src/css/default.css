@@ -60,7 +60,8 @@ h6 { font-size: 1.25em; text-align: center;padding: 0.5em 0; background-color: #
 .text-item { cursor: pointer; font-size: 1.25em; padding: 0 1em; }
 
 .drag-item { cursor: grab; }
-.dragging { opacity: 0.25; border: 2px dotted #FFF; padding: 8px 4px; cursor: grabbing; }
+.dragging { opacity: 0.5; border: 2px dotted #FFF; padding: 8px 4px; cursor: grabbing; }
+.dragging .header-item { margin: 8px auto; }
 
 .library-list {
     margin: 1em 0;
