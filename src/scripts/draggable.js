@@ -13,8 +13,6 @@
 
             // TODO: remove / unwire all existing logic
 
-            // TODO: set up drag and drop functions
-
             let dragItems = document.querySelectorAll('.drag-item');
 
             if (!dragItems || dragItems.length == 0)
@@ -48,16 +46,16 @@
                 container.addEventListener('drop', drop);
             });
 
-            // DragOver: TODO
+            // DragOver: determine where the 'dragging' element is hovering; insert it tentatively
             function dragOver(e) {
                 e.preventDefault();
                 e.dataTransfer.dropEffect = 'move';
                 this.classList.add('drag-over');
 
-                // 1. Find the element to insert the dragged card *after*
+                // Find the element to insert the dragged card *after*
                 const afterElement = getDragAfterElement(this, e.clientY);
                 
-                // 2. Perform the insertion
+                // Perform the insertion
                 if (afterElement == null) {
                     // If it returns null, append to the end of the container
                     this.appendChild(draggedTask);
@@ -67,29 +65,29 @@
                 }
             }
 
-            // DragLeave: TODO
+            // DragLeave: remove the 'drag-over' class
             function dragLeave(e) {
                 this.classList.remove('drag-over');
             }
 
-            // Drop: TODO
+            // Drop: remove the 'drag-over' class; drop logic was handled in dragOver function
             function drop(e) {
                 e.preventDefault();
                 this.classList.remove('drag-over');
-
-                // The actual DOM move was already handled in dragOver for visual feedback.
-                // The drop event simply finalizes the operation.
-                console.log(`Task ${draggedTask.id} finalized move to: ${this.parentElement.id.replace('-column', '')}`);
             }
 
+            // Calculate where the dragging item should land relative to its nearest element
             function getDragAfterElement(container, y) {
-                // Get all tasks *not* currently being dragged
+
+                // Get all elements not being dragged
                 const draggableElements = [...container.querySelectorAll('.drag-item:not(.dragging)')];
 
                 return draggableElements.reduce((closest, child) => {
-                    const box = child.getBoundingClientRect();
+
+                    let box = child.getBoundingClientRect();
+
                     // Calculate the vertical midpoint of the element
-                    const offset = y - box.top - box.height / 2;
+                    let offset = y - box.top - box.height / 2;
 
                     // Find the element where the mouse is in its top half (negative offset)
                     // and the current offset is closer to 0 than the previous closest element
@@ -100,7 +98,6 @@
                     }
                 }, { offset: Number.NEGATIVE_INFINITY }).element;
             }
-
         }
     }
 
