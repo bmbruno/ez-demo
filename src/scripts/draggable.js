@@ -18,14 +18,14 @@
             if (!dragItems || dragItems.length == 0)
                 return;
 
-            tasks.forEach(task => {
+            dragItems.forEach(task => {
                 task.addEventListener('dragstart', dragStart);
                 task.addEventListener('dragend', dragEnd);
             });
 
             // DragStart: add 'dragging' class, set data for transfer
             function dragStart(e) {
-                draggedTask = this;
+                //draggedTask = this;
                 // setTimeout(() => this.classList.add('dragging'), 0);
                 e.currentTarget.classList.add('dragging');
                 e.dataTransfer.setData('text/plain', e.target.id);
@@ -35,7 +35,7 @@
             // DragEnd: remove 'dragging' class
             function dragEnd() {
                 this.classList.remove('dragging');
-                draggedTask = null;
+                //draggedTask = null;
             }
 
         }
