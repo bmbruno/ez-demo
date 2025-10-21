@@ -134,7 +134,7 @@ This module allows users to set up text snippets that can be easily copied to th
             list.innerHTML = "";
 
             let templateEntry = `
-                <li>
+                <li class="drag-item" draggable="true" id="drag-{{DRAGID}}">
                     <div class="display-container entry {{CHECKLIST}}" id="display-container-{{ID}}">
                         <span class="button-container">
                             <button class="text-item-copy-button btn" data-text="{{TEXT}}">Copy</button>
@@ -149,7 +149,7 @@ This module allows users to set up text snippets that can be easily copied to th
                 </li>`;
 
             let templateHeader = `
-                <li>
+                <li class="drag-item" draggable="true" id="drag-{{DRAGID}}">
                     <div class="display-container" id="display-container-{{ID}}">
                         <h6 class="header-item" data-id="{{ID}}">{{TEXT}}</h6>
                     </div>
@@ -173,12 +173,14 @@ This module allows users to set up text snippets that can be easily copied to th
                     if (element.type == "entry") {
                         output += templateEntry.replaceAll("{{TEXT}}", element.text)
                                                .replaceAll("{{CHECKLIST}}", (element.checked) ? "checklist-done" : "")
-                                               .replaceAll("{{ID}}", element.id);
+                                               .replaceAll("{{ID}}", element.id)
+                                               .replaceAll("{{DRAGID}}", element.id);
                     }
 
                     if (element.type == "header") {
                         output += templateHeader.replaceAll("{{TEXT}}", element.text)
-                                                .replaceAll("{{ID}}", element.id);
+                                                .replaceAll("{{ID}}", element.id)
+                                                .replaceAll("{{DRAGID}}", element.id);
                     }
 
                 });
@@ -622,7 +624,28 @@ This module allows users to set up text snippets that can be easily copied to th
 
             return true;
 
+        },
+
+        //
+        // Drag and drop logic
+        //
+
+        // Sits up drag-and-drop logic
+        initDraggable: () => {
+
+            // TODO: remove / unwire all existing logic
+
+            // TODO: set up drag and drop functions
+
+            let dragItems = document.querySelectorAll('.drag-item');
+
+            if (!dragItems || dragItems.length == 0)
+                return;
+
+            
+
         }
+
 
     };
 
