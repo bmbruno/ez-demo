@@ -14,7 +14,7 @@
         //
 
         // Sits up drag-and-drop logic
-        init: () => {
+        init: (sortCallback) => {
 
             let draggedItem = null;
             let dragItems = document.querySelectorAll('.drag-item');
@@ -96,6 +96,9 @@
             function drop(e) {
                 e.preventDefault();
                 this.classList.remove('drag-over');
+
+                // Call back to calling library to handle post-sort logic
+                sortCallback();
             }
 
             // Calculate where the dragging item should land relative to its nearest element

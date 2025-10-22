@@ -241,7 +241,8 @@ This module allows users to set up text snippets that can be easily copied to th
                 });
 
                 // Drag and drop logic
-                EZDrag.init();
+                EZDrag.init(EZDemo.TextLibrary.updatePosAfterDragging);
+                // EZDrag.init(() => {});
 
             } else {
 
@@ -640,8 +641,32 @@ This module allows users to set up text snippets that can be easily copied to th
 
         },
 
+        // Iterate through the current order of rendered library items and update the 'pos' value
+        updatePosAfterDragging: () => {
+
+            let dragItems = document.querySelectorAll(".drag-item");
+
+            dragItems.forEach((element, index, arr) => {
+
+                let id = element.id.replaceAll("drag-", "");
+
+                let existing = EZDemo.TextLibrary.library.find(item => item.id === id);
+
+                if (existing)
+                    existing.pos = (index + 1);
+
+            });
+
+            EZDemo.TextLibrary.sortLibrary();
+            EZDemo.TextLibrary.saveLibrary();
+            EZDemo.TextLibrary.updateUI();
+
+        },
+
         // Re-sorts the library based on the current 'pos' values of each element
         sortLibrary: () => {
+
+            sortByPos(EZDemo.TextLibrary.library);
 
             function sortByPos(arr) {
                 return arr.sort((a, b) => a.pos - b.pos);
