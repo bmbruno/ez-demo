@@ -10,6 +10,11 @@ This module allows users to set up text snippets that can be easily copied to th
 
     window.EZDemo.TextLibrary = window.EZDemo.TextLibrary || {
 
+        // TODO:
+        // Configure callback function (pass to EZDrag) for updating library sorting/ordering
+        // To re-sort: traverse all <li> items, get "drag-{{ID}}", extract ID, and update sort value
+        // TODO: at some point in lifecycle of app, re-sort 'library' based on new 'pos' values
+
         // Library data
         library: [],
 
