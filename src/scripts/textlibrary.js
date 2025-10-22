@@ -638,6 +638,15 @@ This module allows users to set up text snippets that can be easily copied to th
 
             return true;
 
+        },
+
+        // Re-sorts the library based on the current 'pos' values of each element
+        sortLibrary: () => {
+
+            function sortByPos(arr) {
+                return arr.sort((a, b) => a.pos - b.pos);
+            }
+
         }
 
     };
