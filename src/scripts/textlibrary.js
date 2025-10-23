@@ -10,6 +10,11 @@ This module allows users to set up text snippets that can be easily copied to th
 
     window.EZDemo.TextLibrary = window.EZDemo.TextLibrary || {
 
+        // TODO:
+        // Configure callback function (pass to EZDrag) for updating library sorting/ordering
+        // To re-sort: traverse all <li> items, get "drag-{{ID}}", extract ID, and update sort value
+        // TODO: at some point in lifecycle of app, re-sort 'library' based on new 'pos' values
+
         // Library data
         library: [],
 
@@ -26,12 +31,11 @@ This module allows users to set up text snippets that can be easily copied to th
         // Sets up the module on page load (set up the UI, load library)
         init: () => {
 
+            console.log("init() called.");
+
             EZDemo.TextLibrary.wireUI();
 
-            // TODO: consider a composition function to manage both of these promises; could use
-            //       a finally() thenable to handle updateUI() function call
-
-            // Load library from storage
+            // Load library from storage (there's a sequence of events, hence the chained promises)
             chrome.storage.local.get([EZDemo.TextLibrary.keyTextLibrary]).then((result) => {
 
                 if (!result || typeof result === "undefined") {
@@ -42,23 +46,28 @@ This module allows users to set up text snippets that can be easily copied to th
                 try {
 
                     EZDemo.TextLibrary.library = JSON.parse(result[EZDemo.TextLibrary.keyTextLibrary]) || [];
-                    EZDemo.TextLibrary.updateUI();
 
                 } catch (ex) {
                     console.log(`Error loading library: ${ex}`);
                 }
-            });
+            }).then(() => {
 
-            // Load checklist mode setting from storage
-            chrome.storage.local.get([EZDemo.TextLibrary.keyChecklistMode]).then((result) => {
+                // Load checklist mode setting from storage
+                chrome.storage.local.get([EZDemo.TextLibrary.keyChecklistMode]).then((result) => {
 
-                if (!result || typeof result === "undefined") {
-                    console.log("'keyChecklistMode' is null or undefined! Nothing to load.");
-                    return;
-                }
+                    if (!result || typeof result === "undefined") {
+                        console.log("'keyChecklistMode' is null or undefined! Nothing to load.");
+                        return;
+                    }
 
-                EZDemo.TextLibrary.checklistMode = result[EZDemo.TextLibrary.keyChecklistMode];
+                    EZDemo.TextLibrary.checklistMode = result[EZDemo.TextLibrary.keyChecklistMode];
+                    
+                });
+
+            }).finally(() => {
+
                 EZDemo.TextLibrary.updateUI();
+
             });
 
         },
@@ -125,6 +134,8 @@ This module allows users to set up text snippets that can be easily copied to th
         // Renders the Snippet Library UI based on current state of the library
         updateUI: () => {
 
+            console.log("updateUI() called.")
+
             //
             // Render Library list
             //
@@ -134,7 +145,7 @@ This module allows users to set up text snippets that can be easily copied to th
             list.innerHTML = "";
 
             let templateEntry = `
-                <li>
+                <li class="drag-item" draggable="true" id="drag-{{DRAGID}}">
                     <div class="display-container entry {{CHECKLIST}}" id="display-container-{{ID}}">
                         <span class="button-container">
                             <button class="text-item-copy-button btn" data-text="{{TEXT}}">Copy</button>
@@ -149,7 +160,7 @@ This module allows users to set up text snippets that can be easily copied to th
                 </li>`;
 
             let templateHeader = `
-                <li>
+                <li class="drag-item" draggable="true" id="drag-{{DRAGID}}">
                     <div class="display-container" id="display-container-{{ID}}">
                         <h6 class="header-item" data-id="{{ID}}">{{TEXT}}</h6>
                     </div>
@@ -173,12 +184,14 @@ This module allows users to set up text snippets that can be easily copied to th
                     if (element.type == "entry") {
                         output += templateEntry.replaceAll("{{TEXT}}", element.text)
                                                .replaceAll("{{CHECKLIST}}", (element.checked) ? "checklist-done" : "")
-                                               .replaceAll("{{ID}}", element.id);
+                                               .replaceAll("{{ID}}", element.id)
+                                               .replaceAll("{{DRAGID}}", element.id);
                     }
 
                     if (element.type == "header") {
                         output += templateHeader.replaceAll("{{TEXT}}", element.text)
-                                                .replaceAll("{{ID}}", element.id);
+                                                .replaceAll("{{ID}}", element.id)
+                                                .replaceAll("{{DRAGID}}", element.id);
                     }
 
                 });
@@ -226,6 +239,10 @@ This module allows users to set up text snippets that can be easily copied to th
                     element.addEventListener("keydown", (e) => { EZDemo.TextLibrary.handleHeaderEditKeydown(e) });
 
                 });
+
+                // Drag and drop logic
+                EZDrag.init(EZDemo.TextLibrary.updatePosAfterDragging);
+                // EZDrag.init(() => {});
 
             } else {
 
@@ -621,6 +638,39 @@ This module allows users to set up text snippets that can be easily copied to th
             }
 
             return true;
+
+        },
+
+        // Iterate through the current order of rendered library items and update the 'pos' value
+        updatePosAfterDragging: () => {
+
+            let dragItems = document.querySelectorAll(".drag-item");
+
+            dragItems.forEach((element, index, arr) => {
+
+                let id = element.id.replaceAll("drag-", "");
+
+                let existing = EZDemo.TextLibrary.library.find(item => item.id === id);
+
+                if (existing)
+                    existing.pos = (index + 1);
+
+            });
+
+            EZDemo.TextLibrary.sortLibrary();
+            EZDemo.TextLibrary.saveLibrary();
+            EZDemo.TextLibrary.updateUI();
+
+        },
+
+        // Re-sorts the library based on the current 'pos' values of each element
+        sortLibrary: () => {
+
+            sortByPos(EZDemo.TextLibrary.library);
+
+            function sortByPos(arr) {
+                return arr.sort((a, b) => a.pos - b.pos);
+            }
 
         }
 
