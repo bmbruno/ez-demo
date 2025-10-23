@@ -428,7 +428,7 @@ This module allows users to set up text snippets that can be easily copied to th
                 EZDemo.TextLibrary.updateUI();
             }
 
-            // Save with enter
+            // Save with Enter
             if (e.keyCode === 13 && e.srcElement.value.length > 0) {
 
                 // TODO: implement with IDs
@@ -449,12 +449,12 @@ This module allows users to set up text snippets that can be easily copied to th
         handleHeaderEditKeydown: (e) => {
 
             // Cancel with Escape
-            if (e.code === "Escape") {
+            if (e.keyCode === 27) {
                 EZDemo.TextLibrary.updateUI();
             }
 
-            // Save with enter
-            if (e.code === "Enter" && e.srcElement.value.length > 0) {
+            // Save with Enter
+             if (e.keyCode === 13 && e.srcElement.value.length > 0) {
 
                 // TODO: implement with IDs
 
