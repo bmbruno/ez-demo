@@ -2,7 +2,7 @@
     "manifest_version" : 3,
     "name": "EZDemo: Snippet Library",
     "description": "A simple text manager to quickly copy+paste text to webpages.",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "author": {
         "email": "bmbruno@gmail.com"
     },

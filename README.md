@@ -14,6 +14,10 @@ Create text snippets that can be quickly copied and pasted where needed - for ex
 
 # Version History
 
+## 1.3.0
+
+* Added drag-and-drop re-ordering of library list
+
 ## 1.2.0
 
 * Removed multi-tool concept; simplified down to just Snippet Library tool
