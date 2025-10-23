@@ -2,6 +2,7 @@
 
     CSS class: 'drag-container' for container elements (drag targets, basically)
     CSS class 'drag-item' for draggable items
+    Provide 'sortCallback' to execute logic after a drag is complete
 
 */
 
@@ -59,6 +60,9 @@
             function dragEnd() {
                 this.classList.remove('dragging');
                 draggedItem = null;
+
+                // Call back to calling library to handle post-sort logic
+                sortCallback();
             }
 
             containers.forEach(container => {
@@ -99,9 +103,6 @@
                 e.preventDefault();
                 this.classList.remove('drag-over');
                 this.classList.remove('dragging');
-
-                // Call back to calling library to handle post-sort logic
-                sortCallback();
             }
 
             // Calculate where the dragging item should land relative to its nearest element
