@@ -14,7 +14,7 @@
         // Drag and drop logic
         //
 
-        // Sits up drag-and-drop logic
+        // Set up drag-and-drop logic - call this once from your application code
         init: (sortCallback) => {
 
             let draggedItem = null;
