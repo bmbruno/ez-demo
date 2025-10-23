@@ -424,12 +424,12 @@ This module allows users to set up text snippets that can be easily copied to th
         handleTextEditKeydown: (e) => {
 
             // Cancel with Escape
-            if (e.code === "Escape") {
+            if (e.keyCode === 27) {
                 EZDemo.TextLibrary.updateUI();
             }
 
             // Save with enter
-            if (e.code === "Enter" && e.srcElement.value.length > 0) {
+            if (e.keyCode === 13 && e.srcElement.value.length > 0) {
 
                 // TODO: implement with IDs
 
