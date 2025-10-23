@@ -49,8 +49,7 @@
 
             // DragStart: add 'dragging' class, set data for transfer
             function dragStart(e) {
-                draggedItem = this;
-                // setTimeout(() => this.classList.add('dragging'), 0);
+                draggedItem = e.currentTarget;
                 e.currentTarget.classList.add('dragging');
                 e.dataTransfer.setData('text/plain', e.target.id);
                 e.dataTransfer.effectAllowed = 'move';
@@ -68,7 +67,7 @@
                 container.addEventListener('drop', drop);
             });
 
-            // DragOver: determine where the 'dragging' element is hovering; insert it tentatively
+            // DragOver: determine where the 'dragging' element is hovering; insert it tentatively (called every few milliseconds)
             function dragOver(e) {
                 e.preventDefault();
                 e.dataTransfer.dropEffect = 'move';
@@ -77,6 +76,9 @@
                 // Find the element to insert the dragged card *after*
                 const afterElement = getDragAfterElement(this, e.clientY);
                 
+                if (!draggedItem)
+                    return;
+
                 // Perform the insertion
                 if (afterElement == null) {
                     // If it returns null, append to the end of the container
@@ -96,6 +98,7 @@
             function drop(e) {
                 e.preventDefault();
                 this.classList.remove('drag-over');
+                this.classList.remove('dragging');
 
                 // Call back to calling library to handle post-sort logic
                 sortCallback();
