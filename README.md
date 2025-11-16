@@ -10,9 +10,12 @@ Create text snippets that can be quickly copied and pasted where needed - for ex
  * Edit / delete by clicking on any entry; press _Enter_ to confirm change; _Escape_ to cancel
  * Checklist Mode: add strikethrough to text when copied
  * Import / Export: backup and/or version libraries
- * Coming soon: drag-and-drop re-ordering
 
 # Version History
+
+## 1.4.0
+
+* Bug fix: selecting text during edits no longer triggers drag-and-drop
 
 ## 1.3.0
 
