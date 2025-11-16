@@ -362,6 +362,12 @@ This module allows users to set up text snippets that can be easily copied to th
             let textItem = e.currentTarget;
             let itemID = textItem.getAttribute("data-id");
 
+            // Disable drag and drop
+            let listItem = document.getElementById(`drag-${itemID}`);
+            if (listItem)
+                listItem.setAttribute("draggable", false);
+
+            // Start edit mode for this text item
             EZDemo.TextLibrary.enableEditMode(itemID);
 
         },
@@ -424,7 +430,7 @@ This module allows users to set up text snippets that can be easily copied to th
             }
 
             // Save with Enter
-            if (e.keyCode === 13 && e.srcElement.value.length > 0) {
+            if (e.keyCode == 13 && e.srcElement.value.length > 0) {
 
                 // TODO: implement with IDs
 
