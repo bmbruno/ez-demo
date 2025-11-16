@@ -177,14 +177,14 @@ This module allows users to set up text snippets that can be easily copied to th
                 EZDemo.TextLibrary.library.forEach((element) => {
 
                     if (element.type == "entry") {
-                        output += templateEntry.replaceAll("{{TEXT}}", element.text)
+                        output += templateEntry.replaceAll("{{TEXT}}", element.text.replaceAll("\"", "&quot;"))
                                                .replaceAll("{{CHECKLIST}}", (element.checked) ? "checklist-done" : "")
                                                .replaceAll("{{ID}}", element.id)
                                                .replaceAll("{{DRAGID}}", element.id);
                     }
 
                     if (element.type == "header") {
-                        output += templateHeader.replaceAll("{{TEXT}}", element.text)
+                        output += templateHeader.replaceAll("{{TEXT}}", element.text.replaceAll("\"", "&quot;"))
                                                 .replaceAll("{{ID}}", element.id)
                                                 .replaceAll("{{DRAGID}}", element.id);
                     }
